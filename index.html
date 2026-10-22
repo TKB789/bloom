@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A study, workout, cooking and cleaning planner that grows a bouquet over the year.">
+<meta name="description" content="A study, workout, cooking and cleaning planner that grows a year of flowers.">
 <meta name="theme-color" content="#FFFFFD">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8C%BC%3C/text%3E%3C/svg%3E">
 <title>A year in bloom</title>
@@ -49,6 +49,10 @@ h1{
   text-shadow:2px 2px 0 var(--paper),3.5px 3.5px 0 var(--ink);
 }
 .span{font-family:var(--hand);font-size:1.15rem;color:var(--ink2);margin:8px 0 0}
+.left{font-family:var(--hand);font-size:1.05rem;color:var(--ink);margin:2px 0 0;letter-spacing:.01em}
+.left b{font-weight:700}
+.aprev{margin:10px 0 0;font-size:.95rem;line-height:1.5}
+#activeCard .seg{margin:6px 0 12px}
 
 nav{display:flex;justify-content:center;gap:4px;margin:18px 0 22px;flex-wrap:wrap}
 nav button{
@@ -123,8 +127,6 @@ p{margin:0 0 12px}
 .dayhead h2{margin:0}
 .dnav{display:flex;gap:6px;flex:0 0 auto;padding-top:4px}
 .ctx{font-family:var(--hand);font-size:1.1rem;color:var(--ink2);margin:4px 0 0}
-.due{display:inline-block;margin-top:8px;padding:3px 12px;border:1.5px solid var(--ink);border-radius:14px;
-  font-family:var(--hand);font-size:1.05rem;background:var(--paper)}
 .jump{background:none;border:0;padding:0;font-family:var(--hand);font-size:1.05rem;text-decoration:underline;
   text-underline-offset:3px;cursor:pointer;color:var(--ink2);margin-top:6px}
 
@@ -208,10 +210,6 @@ ul.dl .d{color:var(--ink2);white-space:nowrap;font-variant-numeric:tabular-nums}
 .hidden-list ul{list-style:none;margin:6px 0 0;padding:0}
 .linkbtn{background:none;border:0;padding:0;font-family:var(--hand);font-size:1.02rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer;color:var(--ink)}
 .custom-tag{font-family:var(--hand);font-size:.9rem;color:var(--ink2);margin-left:6px}
-/* mood + notes */
-.moods{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.moods button{display:inline-flex;align-items:center;gap:6px}
-.moods i{width:12px;height:12px;border-radius:50%;border:1.2px solid var(--ink);display:inline-block}
 textarea{width:100%;min-height:90px;margin-top:8px;font-family:var(--disp);font-size:1rem;line-height:1.5;padding:10px 12px;
   border:1.5px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);resize:vertical}
 /* dialog */
@@ -250,33 +248,6 @@ fieldset legend{font-size:.88rem;color:var(--ink2);margin-bottom:6px}
 .bar i{display:block;height:100%;background:var(--ink)}
 .heat{display:grid;grid-template-columns:28px repeat(12,1fr);gap:4px;margin-top:10px;font-size:.72rem;color:var(--ink2)}
 .heat i{aspect-ratio:1;border-radius:5px;border:1px solid var(--line);display:block}
-/* priorities */
-.pri{margin:18px 0 4px;padding:14px 16px;border:2px solid var(--ink);border-radius:18px 14px 20px 16px;
-  background:var(--wash);box-shadow:4px 4px 0 var(--ink)}
-.prihead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
-.pri h3{margin:0;font-size:1.2rem}
-.prilist{list-style:none;margin:10px 0 0;padding:0}
-.prilist li{display:flex;align-items:center;gap:10px;padding:7px 0}
-.prilist li+li{border-top:1px solid var(--line)}
-.prilist .nm{flex:1;font-weight:650;line-height:1.35}
-.prilist li.on .nm{text-decoration:line-through;color:var(--ink2)}
-.pmove{font-size:.95rem;white-space:nowrap}
-.pdel{background:none;border:0;cursor:pointer;color:var(--ink2);font-size:1rem;padding:4px 6px}
-.priadd{display:flex;gap:8px;margin-top:10px}
-.priadd input{flex:1;min-width:0;font-family:var(--disp);font-size:1rem;padding:8px 10px;border:1.5px solid var(--ink);border-radius:10px;background:var(--paper);color:var(--ink)}
-.priadd .btn{padding:6px 16px}
-/* mood grid */
-.moodgrid{margin-top:30px;padding-top:18px;border-top:1.5px dashed var(--line)}
-.moodgrid h3{margin:0 0 2px}
-.mm{display:grid;grid-template-columns:30px repeat(31,1fr);gap:2px;align-items:center}
-.mml{font-family:var(--hand);font-size:.95rem;color:var(--ink2);line-height:1}
-.mmn{font-size:.58rem;color:var(--ink2);text-align:center;font-variant-numeric:tabular-nums;overflow:visible;white-space:nowrap}
-.mmy{grid-column:1/-1;font-family:var(--hand);font-size:.95rem;color:var(--ink2);margin-top:6px;border-top:1px dashed var(--line);padding-top:4px}
-.mmc{aspect-ratio:1/1.6;min-width:0;border:1px solid var(--line);border-radius:3px;background:var(--paper);padding:0;cursor:pointer}
-.mmc.fut{border-style:dashed}
-.mmc.tdy{border:1.5px solid var(--ink)}
-.mmc.sel{outline:2px solid var(--ink);outline-offset:1px}
-.mmx{aspect-ratio:1/1.6}
 .mgh{text-align:center;font-family:var(--hand);color:var(--ink2);font-size:.95rem}
 .mgc{aspect-ratio:1;border:1.5px solid var(--ink);border-radius:10px 8px 11px 9px;background:var(--paper);cursor:pointer;
   font-family:var(--disp);font-size:.85rem;padding:0;color:var(--ink)}
@@ -315,12 +286,10 @@ nav{margin:10px 0 14px}
 .dayhead h2{font-size:1.35rem}
 .dnav{align-items:center}
 .chip.sm{padding:3px 12px;font-size:1rem;white-space:nowrap}
-.pri{margin:12px 0 0;padding:10px 14px;box-shadow:3px 3px 0 var(--ink)}
 .group{margin:16px 0 0}
 ul.items li{padding:7px 0}
 .empty{margin:16px 0;padding:16px;border:1.5px dashed var(--line);border-radius:14px;text-align:center}
 .empty p{margin:0 0 10px}
-.moodgrid{margin-top:22px;padding-top:12px}
 textarea{min-height:64px}
 ul.items li{grid-template-columns:52px 28px 1fr;gap:0 8px;padding:6px 0}
 ul.items .box{width:26px;height:26px}
@@ -390,9 +359,6 @@ ul.items .box[aria-pressed="true"]::after{left:8px;top:3px}
 .wdemo svg{width:20px;height:26px}
 .wdemo path{fill:var(--paper);stroke:var(--ink);stroke-width:1.3}
 .wdemo path.f{fill:#6FB8EA}
-.moodkey{display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:8px;font-family:var(--hand);font-size:1.05rem}
-.moodkey span{display:inline-flex;align-items:center;gap:6px}
-.moodkey i{width:14px;height:14px;border-radius:4px;border:1.2px solid var(--ink);display:inline-block}
 .tcards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
 .tcards div{border-left:3px solid var(--ink);padding:2px 0 2px 8px}
 .tcards h4{margin:0;font-family:var(--hand);font-weight:400;font-size:1.08rem;line-height:1.2}
@@ -400,46 +366,76 @@ ul.items .box[aria-pressed="true"]::after{left:8px;top:3px}
 footer{margin-top:40px;text-align:center;font-family:var(--hand);color:var(--ink2);font-size:1rem}
 
 
-/* ---- v2: due pill, day header, compact priorities ---- */
-.due{margin-top:0;padding:1px 11px;border:1.5px solid var(--ink);background:#FFE58A;color:#141414;
-  box-shadow:2px 2px 0 var(--ink);font-size:1rem;line-height:1.5}
-button.due{display:inline-flex;align-items:baseline;gap:7px;max-width:100%;transform:none;cursor:pointer;font-family:var(--hand)}
-.due .nt{flex:0 0 auto;opacity:.7}
-.due .nn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.due:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
-.duel{font-size:.95rem !important;margin-top:0 !important}
-.duel.now{color:var(--ink);font-weight:700}
-.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:8px}
-.pills .due{min-width:0;max-width:100%}
-.due.late{background:#F9C4B6;border-style:dashed}
-.due.late .nt{opacity:1;color:#9A2A14;font-weight:700}
-.due.more{font-size:.92rem}
-.due.cur{background:#B8E3A8}
-.due.cur .nt{opacity:1;font-weight:700}
-.dmid .jump{margin-top:6px}
-ul.items li{scroll-margin:80px 0}
-ul.items li.flash{animation:flash 1.6s ease-out}
-@keyframes flash{0%,35%{background:#FFE58A66}100%{background:transparent}}
+/* ---- v2: day header ---- */
 .dayhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .dmid{flex:1;min-width:0;text-align:center}
 .dmid h2{margin:0}
 .dmid .ctx{margin:2px 0 0;font-size:1rem;line-height:1.3}
 .dtags{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 10px;margin-top:8px}
 .dtags .jump{margin-top:0}
-.pri{margin:12px 0 0;padding:8px 12px 10px;border-width:1.5px;border-radius:14px 12px 15px 12px;box-shadow:2px 2px 0 var(--ink)}
-.prihead h3{font-size:1rem}
-.prihead .hand{font-size:.92rem}
-.pri > p.small{margin:2px 0 0 !important;font-size:.82rem;line-height:1.4}
-.prilist{margin:4px 0 0}
-.prilist li{padding:3px 0;gap:8px}
-.prilist .box{width:24px;height:24px;flex:0 0 auto}
-.prilist .box[aria-pressed="true"]::after{left:7px;top:2px;width:6px;height:11px}
-.prilist .nm{font-size:.95rem}
-.pmove{font-size:.9rem}
-.pdel{padding:2px 4px;font-size:.9rem}
-.priadd{margin-top:6px;gap:6px}
-.priadd input{padding:5px 10px;font-size:.92rem;border-radius:9px}
-.priadd .btn{padding:2px 14px;font-size:1rem;border-radius:9px}
+/* half-hour tracker */
+.slots{list-style:none;margin:0;padding:0}   /* row height and top margin line up with the 18px dot grid */
+.slots li{display:grid;grid-template-columns:68px 28px minmax(0,1fr);gap:0 8px;align-items:start;min-height:36px;padding:0}
+.slots .t{padding-top:9px}.slots .box{margin-top:6px}
+.slots li+li{border-top:1px dashed var(--line)}
+.slots li.hr{border-top:1.2px solid var(--line)}
+.slots li.hr .t{color:var(--ink);font-weight:650}
+.slots .t{font-family:var(--hand);font-size:.95rem;color:var(--ink2);text-align:right;line-height:1.2}
+.slots .box{width:24px;height:24px;border-radius:50%;border-width:1.6px}
+.slots .box[aria-pressed="true"]::after{left:7px;top:3px;width:6px;height:11px}
+.slots .sn{width:100%;min-width:0;border:0;background:transparent;color:var(--ink);font-family:var(--disp);
+  font-size:.95rem;line-height:1.4;padding:3px 4px;border-radius:0;border-bottom:1px solid transparent;
+  display:block;min-height:0;height:auto;margin:4px 0 0;resize:none;overflow:hidden;overflow-wrap:anywhere;box-sizing:border-box}
+.slots .sn::placeholder{color:var(--ink2);opacity:.5}
+.slots .sn:focus{outline:none;border-bottom-color:var(--ink);background:var(--wash)}
+.slots li.on .sn{font-weight:600}
+@media (max-width:600px){.slots li{grid-template-columns:62px 26px minmax(0,1fr);gap:0 6px}.slots .box{width:22px;height:22px;margin-top:7px}}
+#note{overflow:hidden;resize:none;box-sizing:border-box}
+/* search entries */
+.srch{display:block;width:100%;box-sizing:border-box;font-family:var(--disp);font-size:1rem;padding:9px 12px;margin-top:10px;
+  border:1.5px solid var(--ink);border-radius:10px;background:var(--paper);color:var(--ink)}
+.srch:focus{outline:2px solid var(--ink);outline-offset:2px}
+.sres{list-style:none;margin:12px 0 0;padding:0}
+.sres li+li{margin-top:8px}
+.sres button{display:block;width:100%;text-align:left;background:var(--paper);color:var(--ink);border:1.4px solid var(--ink);
+  border-radius:12px 10px 13px 11px;padding:8px 12px;cursor:pointer;font-family:inherit;font-size:1rem}
+.sres button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sres b{display:block;font-size:.95rem}
+.sres .sw2{display:inline;font-family:var(--hand);color:var(--ink2);font-weight:400;margin-left:6px}
+.sres span{display:block;font-size:.92rem;line-height:1.4;color:var(--ink2);overflow-wrap:anywhere}
+.sres mark{background:#F6E08A;color:#141414;border-radius:3px;padding:0 1px}
+/* same day, other years */
+.cmp{list-style:none;margin:14px 0 0;padding:0}
+.cmp li+li{margin-top:8px}
+.cmprow{display:grid;grid-template-columns:minmax(0,1fr) auto 62px;gap:0 10px;align-items:center;width:100%;text-align:left;
+  background:var(--paper);border:1.4px solid var(--ink);border-radius:13px 11px 14px 12px;box-shadow:2px 2px 0 var(--ink);
+  padding:10px 14px;cursor:pointer;font-family:inherit;font-size:1rem}
+.cmprow:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+.cmprow .cmpan{width:62px;height:62px;overflow:visible}
+.cmprow .cl b{display:block;line-height:1.3}
+.cmprow .sb{display:block;font-size:.85rem;color:var(--ink2);line-height:1.35}
+.cmprow .cr{text-align:right;font-family:var(--hand);color:var(--ink2);white-space:nowrap}
+.cmood{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:var(--hand);font-size:.98rem;color:var(--ink2);margin-top:2px}
+.cmood i{width:11px;height:11px;border-radius:50%;border:1.2px solid var(--ink);display:inline-block;flex:0 0 auto}
+.cmood em{font-style:normal}
+/* moods */
+.moods{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.moods button{display:inline-flex;align-items:center;gap:6px}
+.moods i{width:12px;height:12px;border-radius:50%;border:1.2px solid var(--ink);display:inline-block}
+.moodgrid{margin-top:22px;padding-top:14px;border-top:1.5px dashed var(--line)}
+.moodgrid h3{margin:0 0 2px}
+.mm{display:grid;grid-template-columns:30px repeat(31,1fr);gap:2px;align-items:center}
+.mml{font-family:var(--hand);font-size:.95rem;color:var(--ink2);line-height:1}
+.mmn{font-size:.58rem;color:var(--ink2);text-align:center;font-variant-numeric:tabular-nums;overflow:visible;white-space:nowrap}
+.mmy{grid-column:1/-1;font-family:var(--hand);font-size:.95rem;color:var(--ink2);margin-top:6px;border-top:1px dashed var(--line);padding-top:4px}
+.mmc{aspect-ratio:1/1.6;min-width:0;border:1px solid var(--line);border-radius:3px;background:var(--paper);padding:0;cursor:pointer}
+.mmc.fut{border-style:dashed}
+.mmc.tdy{border:1.5px solid var(--ink)}
+.mmc.sel{outline:2px solid var(--ink);outline-offset:1px}
+.mmx{aspect-ratio:1/1.6}
+.moodkey{display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:8px;font-family:var(--hand);font-size:1.05rem}
+.moodkey span{display:inline-flex;align-items:center;gap:6px}
+.moodkey i{width:14px;height:14px;border-radius:4px;border:1.2px solid var(--ink);display:inline-block}
 /* swipe areas */
 .mswipe,.daypanel{touch-action:pan-y pinch-zoom}
 /* phones: garden fits one screen (flower + water) */
@@ -450,6 +446,7 @@ ul.items li.flash{animation:flash 1.6s ease-out}
   .theme .thl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   h1{font-size:clamp(1.7rem,8.2vw,2.3rem);padding:4px 36px 0}
   .span{font-size:.95rem;margin-top:2px;line-height:1.3}
+  .left{font-size:.95rem;margin-top:0}
   nav{margin:4px 0 8px}
   nav button{padding:2px 10px 6px;font-size:1.1rem}
   .seg{margin-bottom:6px}
@@ -491,7 +488,7 @@ ul.items li.flash{animation:flash 1.6s ease-out}
       <circle cx="11" cy="2" r="1.3" fill="#7A7A73"/>
       <circle cx="4" cy="11" r="1.6" fill="#8F8F88"/>
     </pattern>
-<pattern id="speck0" width="12" height="12" patternUnits="userSpaceOnUse">
+    <pattern id="speck0" width="12" height="12" patternUnits="userSpaceOnUse">
       <rect width="12" height="12" fill="#6E4B2E"/>
       <circle cx="3" cy="3" r="1.6" fill="#4F3420"/>
       <circle cx="9" cy="8" r="2.2" fill="#86603E"/>
@@ -523,6 +520,7 @@ ul.items li.flash{animation:flash 1.6s ease-out}
     <button class="theme" id="themeBtn" aria-label="Change theme">Auto</button>
     <h1>A year in bloom</h1>
     <p class="span" id="span">—</p>
+    <p class="left" id="leftLine" hidden></p>
   </header>
 
   <nav role="tablist">
@@ -533,6 +531,7 @@ ul.items li.flash{animation:flash 1.6s ease-out}
 
   <section class="view on" id="v-bouquet"></section>
   <section class="view" id="v-plan"></section>
+  <section class="view" id="v-compare"></section>
 
   <section class="view" id="v-tips">
     <div class="spread">
@@ -549,27 +548,9 @@ ul.items li.flash{animation:flash 1.6s ease-out}
       <div class="blk span2 b2">
         <span class="tape t2">Full bloom needs</span>
         <ul class="ticks">
-          <li><i></i>Most of your day done (90% or more)</li>
-          <li><i></i>Every priority checked</li>
+          <li><i></i>Most of the day's half-hours marked (90% or more)</li>
           <li><i></i>At least 1 water drop</li>
         </ul>
-      </div>
-
-      <div class="blk span2 b3">
-        <span class="tape t3">Categories</span>
-        <p>The categories come from two well-known wellbeing frameworks: the <b>six pillars of lifestyle medicine</b> (eating well, moving, restorative sleep, managing stress, social connection, and avoiding risky substances) and the <b>Five Ways to Wellbeing</b> (connect, be active, take notice, keep learning, give). Each one is a small daily habit worth building.</p>
-        <ul class="catlist">
-          <li><h4>Workout</h4><p>Regular movement supports mood, energy and sleep. Any activity you enjoy counts.</p><span class="src-tag">Be active · Physical activity</span></li>
-          <li><h4>Cooking</h4><p>Making your own meals makes eating well the easy choice.</p><span class="src-tag">Nutrition</span></li>
-          <li><h4>Break / rest</h4><p>Pauses, wind-downs and screen-free time help manage stress and protect sleep.</p><span class="src-tag">Take notice · Sleep &amp; stress</span></li>
-          <li><h4>Learn</h4><p>Picking up something new keeps your mind active, and adult learning is linked with fewer symptoms of anxiety and depression.</p><span class="src-tag">Keep learning</span></li>
-          <li><h4>Connect</h4><p>A call, a meal together, or a kind message. Relationships are a core part of health in both frameworks.</p><span class="src-tag">Connect · Give · Social connection</span></li>
-          <li><h4>Cleaning</h4><p>People who describe their homes as cluttered tend to report more stress, so small daily resets help.</p><span class="src-tag">Stress</span></li>
-          <li><h4>Planning</h4><p>A few minutes of planning keeps your priorities in view.</p><span class="src-tag">Take notice</span></li>
-          <li><h4>Regular</h4><p>Everything else: work, errands, appointments. It's the default if you're not sure.</p></li>
-        </ul>
-        <p class="fine">Workouts and learning count a little more toward a day's color, since they take the most effort.</p>
-        <p class="fine">Sources: <a href="https://lifestylemedicine.org/pillar-updates-stress-management-and-social-connection/" target="_blank" rel="noopener">American College of Lifestyle Medicine</a> · <a href="https://neweconomics.org/uploads/files/NEF-5ways.pdf" target="_blank" rel="noopener">New Economics Foundation</a> · <a href="https://thethrivelab.com/benefits-of-adult-learning-and-impact-on-wellbeing/" target="_blank" rel="noopener">The Thrive Lab</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/19934011/" target="_blank" rel="noopener">Saxbe &amp; Repetti, 2010</a></p>
       </div>
 
       <div class="blk span2 b4">
@@ -585,13 +566,6 @@ ul.items li.flash{animation:flash 1.6s ease-out}
           <svg viewBox="0 0 16 20"><path d="M8 1.5C8 1.5 2 9.2 2 13.2a6 6 0 0 0 12 0C14 9.2 8 1.5 8 1.5Z"/></svg>
         </div>
         <p><b>Every body is different.</b> The 8 drops are your daily target, and each drop can be whatever amount you need — a glass, a bottle, or a cup of tea.</p>
-        <p class="fine">No tasks on a day? Water becomes that day's goal: fill all 8 drops for full bloom.</p>
-      </div>
-
-      <div class="blk span2 b5">
-        <span class="tape t5">Moods</span>
-        <div id="tipMoods" class="moodkey"></div>
-        <p class="fine">Pick one each day. Your moods fill in month by month at the bottom of the Garden.</p>
       </div>
 
       <div class="blk span2 b6">
@@ -606,52 +580,40 @@ ul.items li.flash{animation:flash 1.6s ease-out}
           <div><h4>Cook once, eat three times</h4><p>One prep session covers busy weeknights.</p></div>
           <div><h4>Clean in 10-minute pieces</h4><p>One small chore a day keeps the weekend free.</p></div>
           <div><h4>Finish early</h4><p>Aim to submit a couple of hours before a deadline.</p></div>
-          <div><h4>Plan tonight</h4><p>Five minutes before bed: pick tomorrow's priorities.</p></div>
+          <div><h4>Plan tonight</h4><p>Five minutes before bed: look over tomorrow's plan.</p></div>
         </div>
         <p class="fine">Sources: <a href="https://pubmed.ncbi.nlm.nih.gov/37167429/" target="_blank" rel="noopener">PubMed 2023</a> · <a href="https://www.work-fit.com/blog/how-effective-breaks-at-work-increase-productivity/" target="_blank" rel="noopener">Work-Fit</a> · <a href="https://www.retrievalpractice.org/strategies/optimal-spacing" target="_blank" rel="noopener">Retrieval Practice</a> · <a href="https://evidencebased.education/resource/retrieval-and-spaced-practice-study-strategies-that-must-be-combined/" target="_blank" rel="noopener">Evidence Based Education</a> · <a href="https://hbr.org/2023/05/how-to-take-better-breaks-at-work-according-to-research" target="_blank" rel="noopener">HBR</a></p>
       </div>
 
+      <div class="blk span2 b3" id="mindself">
+        <span class="tape t3">Healthy mind &amp; self</span>
+        <p>For your free time. Pick one that fits your energy today — any of these counts as a win.</p>
+        <div class="tcards">
+          <div><h4>Move</h4><p>A 10-minute walk, dancing to two songs, or gentle stretching. Small amounts add up.</p></div>
+          <div><h4>Calm</h4><p>Slow breathing (in 4, out 6), a short guided meditation, or a warm shower.</p></div>
+          <div><h4>Connect</h4><p>Text or call a friend, or spend time with someone you like. Even 10 minutes helps.</p></div>
+          <div><h4>Gratitude</h4><p>Write down three good things from today, however small.</p></div>
+          <div><h4>Create &amp; play</h4><p>Draw, cook something new, play music or a game — anything just for fun.</p></div>
+          <div><h4>Outside</h4><p>Sit in the garden, walk somewhere green, or just get some daylight.</p></div>
+          <div><h4>Rest</h4><p>Read for fun, nap under 20 minutes, or cuddle the pets. Rest is productive too.</p></div>
+          <div><h4>Unplug</h4><p>Put the phone in another room for 30 minutes, especially before bed.</p></div>
+        </div>
+        <p class="fine">If low mood or worry lasts 2 weeks or more, talk to a health care provider. Source: <a href="https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health" target="_blank" rel="noopener">NIMH</a></p>
+      </div>
+
+      <div class="blk span2 b5">
+        <span class="tape t5">Moods</span>
+        <div id="tipMoods" class="moodkey"></div>
+        <p class="fine">Pick one each day. Your moods fill in month by month at the bottom of the Garden.</p>
+      </div>
+
       <div class="blk span2 b7">
         <span class="tape t1">The garden</span>
-        <p>Each flower is a month and each petal section is a day. A new flower grows every month, and finished months stay. Each month has its own color — the key above uses this month's.</p>
+        <p>Each half-hour you mark counts toward the day’s color. Each flower is a month, and each petal section is a day. A new flower grows every month, and finished months stay in the garden. Every year brings new flower shapes, and each month has its own color — the key above uses this month’s.</p>
       </div>
 
     </div>
   </section>
-
-  <dialog id="dlg" aria-labelledby="dlgT">
-    <form method="dialog" id="dlgForm">
-      <h3 id="dlgT">Add a task</h3>
-      <div class="fgrid">
-        <label class="full">Task<input id="fName" required maxlength="80" autocomplete="off"></label>
-      </div>
-      <fieldset><legend>Category</legend><div class="radios cats" id="fCat">
-        <label><input type="radio" name="cat" value="other" checked>Regular</label>
-        <label><input type="radio" name="cat" value="study">Learn</label>
-        <label><input type="radio" name="cat" value="move">Workout</label>
-        <label><input type="radio" name="cat" value="connect">Connect</label>
-        <label><input type="radio" name="cat" value="cook">Cooking</label>
-        <label><input type="radio" name="cat" value="clean">Cleaning</label>
-        <label><input type="radio" name="cat" value="brk">Break / rest</label>
-        <label><input type="radio" name="cat" value="plan">Planning</label>
-      </div></fieldset>
-      <div class="fgrid" style="margin-top:14px">
-        <label>Start<input id="fTime" type="time" required></label>
-        <label>Minutes<input id="fDur" type="number" inputmode="numeric" min="5" max="600" step="5" required></label>
-      </div>
-      <fieldset><legend>Apply to</legend><div class="radios" id="fScope"></div></fieldset>
-      <div class="fgrid" style="margin-top:14px">
-        <label class="full">Note (optional)<input id="fSub" maxlength="120" autocomplete="off"></label>
-      </div>
-      <div class="dact">
-        <button type="button" class="btn danger" id="fDel">Remove</button>
-        <span style="display:flex;gap:8px;margin-left:auto">
-          <button type="button" class="btn ghost" id="fCancel">Cancel</button>
-          <button type="submit" class="btn" id="fSave">Save</button>
-        </span>
-      </div>
-    </form>
-  </dialog>
 
   <footer id="sync">Progress is saved in this browser</footer>
 </div>
@@ -667,14 +629,13 @@ var DOW=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 var BROWN_LIGHT=["#B98552","#A8703F","#C69A6B","#9A6A3E"];   // wilting: caramel, cinnamon, tan, toffee
 var BROWN_DARK=["speck0","speck1","speck2","speck3"];          // wilted: walnut, chocolate, umber, coffee
 function pick(arr,ds){var d=parse(ds);return arr[(d.getDate()*5+d.getMonth()*3)%arr.length]}
-var PTS={study:2,move:3,cook:1,clean:1,brk:1,plan:1};
 var TIERS=[
   {k:"full",   min:.90,name:"Full bloom",  note:"Vibrant — the month's own color"},
   {k:"bloom",  min:.75,name:"In bloom",    note:"Bright, a little lighter"},
   {k:"fading", min:.55,name:"Fading",      note:"Dusty, starting to brown"},
   {k:"wilting",min:.35,name:"Wilting",     note:"Light browns — caramel, tan, cinnamon"},
   {k:"wilted", min:.01,name:"Wilted",      note:"Dark browns — walnut, chocolate, umber — speckled"},
-  {k:"gray",   min:0,  name:"Gray",        note:"Nothing checked off"}
+  {k:"gray",   min:0,  name:"Gray",        note:"Nothing marked"}
 ];
 var TOPICS=[null,"Introduction & classification","Validation & clustering","Basic data prep & change detection",
   "Time series models","Basic regression","Advanced data prep","Advanced regression & tree models",
@@ -702,245 +663,49 @@ function toMin(t){var p=String(t||"").split(":");return (+p[0]||0)*60+(+p[1]||0)
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 
 /* ---------- state ---------- */
-var settings={start:today(),wake:"06:30",free:"17:30",gview:"grown",ahead:0,theme:"auto",lastBackup:"",builtin:false};
-var routine={add:{},hide:{},edit:{}};   // weekly changes, keyed by weekday 0-6
-var dayx={};                            // one-day changes: {"2026-11-01": {add:[], hide:[], edit:{}}}
-var editing=false;
-var months={};           // {"2026-09": {"15": {c:[ids], p:0.8, t:ms}}}
-var view="bouquet", dayDs=today();
+var settings={start:today(),wake:"06:30",end:"22:00",gview:"grown",ahead:0,theme:"auto",lastBackup:"",activeYears:0,activeFrom:"",activeShow:"none"};
+var months={};           // {"2026-09": {"15": {c:[slot keys], s:{slot:note}, p:0.8, w:3, t:ms}}}
+var view="bouquet", dayDs=today(), gyi=null, searchQ="";
 
 function loadLocal(){
   try{
     var raw=localStorage.getItem(KEY);
-    if(raw){
-      var o=JSON.parse(raw);
-      // browsers that already used the planner keep the sample plan they were using
-      if(o.settings&&o.settings.builtin===undefined)o.settings.builtin=true;
-      applyData(o);
-    }
+    if(raw)applyData(JSON.parse(raw));
   }catch(e){}
 }
 function applyData(o){
-  if(o.settings&&o.settings.builtin===undefined)o.settings.builtin=true;
-  if(o.settings)settings=Object.assign(settings,o.settings);
+  if(o.settings){var st=o.settings;if(!st.end)st.end="22:00";delete st.free;delete st.builtin;delete st.ahead2;settings=Object.assign(settings,st)}
   if(o.months)months=o.months;
-  routine=Object.assign({add:{},hide:{},edit:{}},o.routine||{});
-  dayx=o.dayx||{};
 }
-function dataObj(){return {app:"year-in-bloom",v:2,settings:settings,months:months,routine:routine,dayx:dayx}}
+function dataObj(){return {app:"year-in-bloom",v:3,settings:settings,months:months}}
 function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(dataObj()))}catch(e){}}
 function setSync(t){document.getElementById("sync").textContent=t}
 
 function yearStart(){var d=parse(settings.start);return {y:d.getFullYear(),m:d.getMonth()}}
 
-/* ---------- course calendar ---------- */
-function hwDue(n){return addDays("2026-09-02",7*(n-1))}
-function hwFor(ds){for(var n=1;n<=14;n++){if(hwDue(n)>=ds)return n}return null}
-function quizFor(ds){for(var i=0;i<QUIZ.length;i++){if(ds>=QUIZ[i].open&&ds<=QUIZ[i].close)return QUIZ[i]}return null}
-function inProject(ds){return ds>=PROJECT.open&&ds<=PROJECT.due}
-
-function study(name,sub,extra){return Object.assign({cat:"study",dur:25,name:name,sub:sub},extra||{})}
-
-function studyBlocks(ds){
-  var dow=parse(ds).getDay();
-  var counts=[3,3,3,2,2,2,4];
-  var k=counts[dow];
-  var list=[];
-  if(ds<"2026-08-24"||ds>"2026-12-13"){
-    for(var i=0;i<k;i++)list.push(study("Learning sprint "+(i+1),"Review old notes or get ahead on your next course"));
-    return list;
-  }
-  if(ds>"2026-12-02"){
-    if(ds===QUIZ[2].day){
-      return [study("Warm-up: skim your cheat sheets","Just read — no new material"),
-              study("Take the final quiz","3 hours, proctored. Room scan first; 2 sheets of notes allowed",{dur:180,pts:4})];
-    }
-    var f=[study("Final prep: rewrite one module from memory","Then check it against your notes"),
-           study("Final prep: practice questions","Mix modules — don't do them in order"),
-           study("Final prep: build your 2 note sheets","Handwritten, both sides — 4 sides total"),
-           study("Final prep: explain three models out loud","When would you use each? What would it not tell you?")];
-    return f.slice(0,k);
-  }
-  var n=hwFor(ds),T=TOPICS[n],P=TOPICS[n-1];
-  switch(dow){
-    case 1: list=[study("HW "+n+": work the next question",T),study("HW "+n+": keep going","One question per sprint"),study("HW "+n+": check your results","Do the numbers make sense for the question?")];break;
-    case 2: list=[study("HW "+n+": write up your answers","Plain words — say what the model does and doesn't tell you"),study("HW "+n+": finish the write-up","Cite any code snippets or AI help"),study("Say it out loud: "+T,"5 minutes, no notes — then check what you missed")];break;
-    case 3: list=[study("HW "+n+": final read-through","Every question answered? Files attached?"),study("Submit HW "+n,"Due 11 pm Pacific tonight — aim for 9 pm")];break;
-    case 4: list=[study("HW "+n+": read every question","List the data and models you'll need"),study("Lectures: "+T,"Part 1 — take notes by hand")];break;
-    case 5: list=[study("Lectures: "+T,"Part 2"),study("One-page summary from memory","Write first, then check against the lectures")];break;
-    case 6: list=[study("HW "+n+": load the data, first model",T),study("HW "+n+": next question",""),study("Lectures: finish "+T,"Next week's videos are out today too"),study(P?"Quiz yourself: "+P:"Quiz yourself: "+T,"Retrieval, not rereading")];break;
-    case 0: list= n>1
-      ? [study("Peer review HW "+(n-1),"Due 11 pm Pacific tonight — no reviews, no credit"),study("Peer review: finish the rest","Median of your graders' scores counts"),study("HW "+n+": next question",T)]
-      : [study("HW "+n+": next question",T),study("HW "+n+": keep going",""),study("HW "+n+": check your results","")];
-      break;
-  }
-  var q=quizFor(ds);
-  if(q){
-    if(ds===q.day){
-      list=[list[0],list[1],study("Take "+q.name,q.len+" minutes, proctored. Room scan first; 1 note sheet allowed",{dur:q.len,pts:4})];
-    }else{
-      if(dow===2)list[2]=study(q.name+" prep: practice questions","Covers "+q.cover+" — closes "+fmtShort(q.close));
-      if(dow===6)list[3]=study(q.name+" prep: note sheet from memory","One sheet, both sides, handwritten");
-      if(dow===0)list[2]=study(q.name+" prep: redo one old homework","Without looking at your answer first");
-    }
-  }
-  if(inProject(ds)&&dow===6&&!(q&&ds===q.day)&&!(q&&dow===6))list[3]=study("Course project: next step","Due "+fmtShort(PROJECT.due)+", 11 pm Pacific");
-  if(inProject(ds)&&dow===5)list[1]=study("Course project: next step","Due "+fmtShort(PROJECT.due)+", 11 pm Pacific");
-  return list.slice(0,k);
-}
-
-function contextFor(ds){
-  if(!settings.builtin)return {line:"",due:null};
-  if(ds<"2026-08-24"||ds>"2026-12-13")return {line:"Between courses",due:null};
-  var q=quizFor(ds);
-  if(ds>"2026-12-02")return {line:"ISYE 6501 · Final quiz window",due:q?q.name+" closes "+fmtShort(q.close)+", 11 pm":null};
-  var n=hwFor(ds),dow=parse(ds).getDay(),due=null;
-  if(ds===hwDue(n))due="HW "+n+" due tonight, 11 pm";
-  else if(dow===0&&n>1)due="Peer reviews for HW "+(n-1)+" due tonight, 11 pm";
-  else if(q)due=q.name+" open until "+fmtShort(q.close)+", 11 pm";
-  else due="HW "+n+" due "+fmtShort(hwDue(n));
-  return {line:"ISYE 6501 · HW "+n+" · "+TOPICS[n],due:due};
-}
-
-/* ---------- day template ---------- */
-function baseItems(ds){
-  var dow=parse(ds).getDay(),wake=toMin(settings.wake),free=toMin(settings.free),out=[];
-  var S=studyBlocks(ds),si=0,bi=0;
-  function push(t,it){it.t=t;it.pts=it.pts||PTS[it.cat]||0;out.push(it);return t+it.dur}
-  function brk(t,dur,name,sub){bi++;return push(t,{id:"b"+bi,cat:"brk",dur:dur,name:name,sub:sub})}
-  function st(t){var s=S[si];si++;s.id="s"+si;return push(t,s)}
-  function run(t,seq){seq.forEach(function(f){t=f(t)});return t}
-
-  if(dow>=1&&dow<=5){
-    var t=wake,part="Morning";
-    t=push(t,{id:"bed",cat:"clean",dur:10,name:"Make the bed, open the blinds",sub:"Two minutes that make the room feel handled",part:part});
-    t=push(t+5,{id:"food",cat:"cook",dur:40,name:"Cook and eat your main meal",sub:"Steak or fish plus a side — see your training planner",part:part});
-    t=push(t+5,{id:"ms",cat:"study",dur:25,name:"Morning sprint",sub:"Flashcards or one short lecture video",part:part});
-    t=brk(t,5,"Break: stand up, refill water","Then head into your day");
-    out[out.length-1].part=part;
-    out.push({id:"info",info:true,t:Math.max(t+10,wake+100),name:"Work and daytime commitments",part:"Daytime"});
-    push(Math.max(720,wake+120),{id:"lunch",cat:"brk",dur:30,name:"Lunch away from your screen",sub:"A walk around the block counts double for your head",part:"Daytime"});
-
-    part="Evening"; t=free;
-    var lift=(dow===1||dow===3||dow===5);
-    if(lift){
-      t=push(t,{id:"mv",cat:"move",dur:45,name:"Lift: Workout A or B",sub:"Mon / Wed / Fri — details in your training planner",part:part});
-      t=brk(t,15,"Cool down: shower and stretch","Counts as your break");
-    }else{
-      t=push(t,{id:"mv",cat:"move",dur:30,name:"Walk 25–30 minutes",sub:"Easy pace — recovery day",part:part});
-      t=brk(t,10,"Change, drink water","");
-    }
-    t=push(t+5,{id:"snack",cat:"cook",dur:15,name:"Protein snack",sub:lift?"Within 2 hours of lifting":"Cottage cheese or Greek yogurt",part:part});
-    var nS=S.length;
-    t=st(t+5);
-    for(var i=1;i<nS;i++){t=brk(t,5,"Break: 5 minutes, away from the desk","Stand, stretch, look at something far away");t=st(t)}
-    t=brk(t,15,"Long break: 15 minutes, no phone","Walk, tidy, or just sit");
-    var chores={1:["Bathroom wipe-down","Sink, mirror, counter","clean"],2:["Start a load of laundry","Fold it during tomorrow's long break","clean"],
-      3:["Vacuum one room","Pick the one that bugs you most","clean"],4:["Check the fridge, write the grocery list","For Saturday's shop and Sunday's prep","cook"],
-      5:["Tidy for the weekend","Clear surfaces, take out trash","clean"]};
-    var c=chores[dow];
-    t=push(t,{id:"chore",cat:c[2],dur:10,name:c[0],sub:c[1],part:part});
-    t=push(t,{id:"kitchen",cat:"clean",dur:15,name:"Kitchen reset",sub:"Dishes done, counters wiped",part:part});
-    t=push(t,{id:"plan",cat:"plan",dur:5,name:"Plan tomorrow",sub:"Look at the list; pick the one sprint that matters most",part:part});
-    push(Math.max(t+20,free+240),{id:"wind",cat:"brk",dur:30,name:"Screens off, wind down",sub:"Sleep is when the studying sticks",part:part});
-  }else{
-    var W=wake+60,t2=W,p="Morning";
-    t2=push(t2,{id:"bed",cat:"clean",dur:10,name:"Make the bed, open the blinds",sub:"Sleeping in an hour is built in",part:p});
-    t2=push(t2+5,{id:"food",cat:"cook",dur:40,name:"Cook and eat your main meal",sub:"Steak or fish plus a side",part:p});
-    if(dow===6){
-      t2=push(t2+10,{id:"mv",cat:"move",dur:40,name:"Walk 30–40 minutes",sub:"Easy pace, outside if you can",part:p});
-      t2=brk(t2,10,"Change, drink water","");
-      out[out.length-1].part=p;
-      var quizDay=S.length===3&&S[2].pts===4;
-      t2=st(t2+5);
-      for(var j=1;j<S.length;j++){
-        var lastBig=(j===S.length-1);
-        t2=lastBig?brk(t2,20,"Long break: 20 minutes, no phone","Get outside for a bit"):brk(t2,5,"Break: 5 minutes, away from the desk","");
-        out[out.length-1].part=p;
-        t2=st(t2);
-      }
-      p="Afternoon";
-      t2=push(t2+10,{id:"lunch",cat:"cook",dur:40,name:"Lunch",sub:"Something simple — leftovers are perfect",part:p});
-      t2=push(t2+20,{id:"shop",cat:"cook",dur:60,name:"Grocery shop",sub:"Use Thursday's list; buy for Sunday's prep",part:p});
-      t2=push(t2+10,{id:"laundry",cat:"clean",dur:20,name:"Laundry: wash and fold",sub:"",part:p});
-      t2=push(t2+10,{id:"fun",cat:"brk",dur:120,name:"Free time — actually rest",sub:quizDay?"You just took a quiz. Do something you enjoy.":"No homework, no guilt",part:p});
-      push(Math.max(t2+60,toMin("20:30")),{id:"plan",cat:"plan",dur:5,name:"Plan tomorrow",sub:"Which peer reviews are left?",part:"Evening"});
-    }else{
-      t2=st(t2+10);out[out.length-1].part=p;
-      t2=brk(t2,5,"Break: 5 minutes, away from the desk","");out[out.length-1].part=p;
-      t2=st(t2);out[out.length-1].part=p;
-      t2=brk(t2,15,"Long break: 15 minutes","Put music on for the next part");out[out.length-1].part=p;
-      t2=push(t2,{id:"prep",cat:"cook",pts:2,dur:90,name:"Meal prep: proteins and sides",sub:"Cook enough for Monday–Wednesday; portion into containers",part:p});
-      p="Afternoon";
-      t2=push(t2,{id:"lunch",cat:"brk",dur:45,name:"Sit down and eat what you just made",sub:"A real break — away from the kitchen",part:p});
-      t2=push(t2,{id:"reset",cat:"clean",pts:2,dur:45,name:"Weekly reset",sub:"Bathroom, floors, sheets, trash out",part:p});
-      t2=push(t2,{id:"fun",cat:"brk",dur:150,name:"Rest day — do something fun",sub:"No workout today. Recovery is part of the plan",part:p});
-      p="Evening";
-      t2=st(t2+15);out[out.length-1].part=p;
-      t2=brk(t2,5,"Break: 5 minutes","");out[out.length-1].part=p;
-      push(t2+10,{id:"plan",cat:"plan",dur:15,name:"Plan the week",sub:"Check deadlines; move anything that won't fit",part:p});
-    }
-  }
-  out.forEach(function(it){if(!it.part)it.part=it.t<720?"Morning":(it.t<toMin(settings.free)?"Daytime":"Evening")});
-  out.sort(function(a,b){return a.t-b.t});
+/* ---------- the day's half-hour slots ---------- */
+function slotMins(){
+  var a=toMin(settings.wake),b=toMin(settings.end);
+  if(b<=a)b=a+60;
+  var out=[];for(var m=a;m+30<=b+1e-9;m+=30)out.push(m);
   return out;
 }
+function slotKey(m){return "s"+m}
+function slotNotes(ds){var r=rec(ds);return (r&&r.s)||{}}
 
-PTS.other=1;PTS.pri=2;PTS.connect=1;
-var CAT_NAMES={pri:"Priorities",study:"Learn",move:"Workout",cook:"Cooking",clean:"Cleaning",brk:"Breaks",connect:"Connect",plan:"Planning",other:"Regular"};
-function partFor(t){return t<720?"Morning":(t<toMin(settings.free)?"Daytime":"Evening")}
-function items(ds){
-  var dow=parse(ds).getDay(),x=dayx[ds]||{},list=settings.builtin?baseItems(ds):[];
-  var hideW=routine.hide[dow]||[],hideD=x.hide||[],editW=routine.edit[dow]||{},editD=x.edit||{};
-  list=list.concat((routine.add[dow]||[]).map(function(it){return Object.assign({custom:"week"},it)}));
-  list=list.concat((x.add||[]).map(function(it){return Object.assign({custom:"day"},it)}));
-  (x.pri||[]).forEach(function(pr){list.push({id:pr.id,name:pr.name,cat:"pri",pts:PTS.pri,dur:0,t:-1,part:"Priorities",pri:true})});
-  var out=[];
-  list.forEach(function(it){
-    if(it.info||it.pri){out.push(it);return}
-    if(hideW.indexOf(it.id)>-1||hideD.indexOf(it.id)>-1)return;
-    var e=Object.assign({},editW[it.id]||{},editD[it.id]||{});
-    var o=Object.assign({},it,e);
-    if(e.t!=null||it.custom)o.part=partFor(o.t);
-    o.pts=+o.pts||PTS[o.cat]||1;
-    out.push(o);
-  });
-  out.sort(function(a,b){return a.t-b.t});
-  return out;
-}
-function hiddenItems(ds){
-  var dow=parse(ds).getDay(),x=dayx[ds]||{},all=(settings.builtin?baseItems(ds):[]).concat(routine.add[dow]||[]);
-  var res=[];
-  all.forEach(function(it){
-    if(it.info)return;
-    if((x.hide||[]).indexOf(it.id)>-1)res.push({it:it,scope:"day"});
-    else if((routine.hide[dow]||[]).indexOf(it.id)>-1)res.push({it:it,scope:"week"});
-  });
-  return res;
-}
-function rescore(ds){
-  var r=rec(ds);if(!r)return;
-  var ids=items(ds).map(function(i){return i.id});
-  setChecks(ds,r.c.filter(function(c){return ids.indexOf(c)>-1}));
-}
-
-function maxPts(ds){return items(ds).reduce(function(a,it){return a+(it.info?0:it.pts)},0)}
 function tierOf(p){for(var i=0;i<TIERS.length;i++){if(p>=TIERS[i].min&&(TIERS[i].min>0||p===0))return TIERS[i]}return TIERS[5]}
 
 function rec(ds){var m=months[ymOf(ds)];return m?m[String(+ds.slice(8))]:null}
 function checks(ds){var r=rec(ds);return r?r.c:[]}
 function scoreFor(ds,arr){
-  var its=items(ds),max=0,got=0,priLeft=0;
-  its.forEach(function(it){
-    if(it.info)return;max+=it.pts;
-    var on=arr.indexOf(it.id)>-1;if(on)got+=it.pts;
-    if(it.pri&&!on)priLeft++;
-  });
+  var slots=slotMins(),max=slots.length,got=0;
+  arr=arr||[];
+  slots.forEach(function(m){if(arr.indexOf(slotKey(m))>-1)got++});
   var r=rec(ds),w=r&&r.w||0,dry=!w;
-  if(!max)return {max:0,got:0,p:w/8,priLeft:0,dry:dry,water:w,waterOnly:true};   // no tasks: water is the goal
+  if(!max)return {max:0,got:0,p:w/8,dry:dry,water:w,waterOnly:true};   // no half-hours in range: water is the goal
   var p=got/max;
-  if((priLeft||dry)&&p>=.9)p=.89;   // full bloom needs every priority done and at least one drop of water
-  return {max:max,got:got,p:p,priLeft:priLeft,dry:dry,water:w};
+  if(dry&&p>=.9)p=.89;   // full bloom needs at least one drop of water
+  return {max:max,got:got,p:p,dry:dry,water:w};
 }
 function setChecks(ds,arr){
   var ym=ymOf(ds),d=String(+ds.slice(8));
@@ -1338,7 +1103,7 @@ function monthSVG(ym){
 function addMonths(ym,n){var y=+ym.slice(0,4),m=+ym.slice(5)-1+n;y+=Math.floor(m/12);m=((m%12)+12)%12;return y+"-"+pad(m+1)}
 function firstYM(){return settings.start.slice(0,7)}
 
-function tierRange(k){return {full:"90%+",bloom:"75–89%",fading:"55–74%",wilting:"35–54%",wilted:"1–34%",gray:"Nothing checked"}[k]}
+function tierRange(k){return {full:"90%+",bloom:"75–89%",fading:"55–74%",wilting:"35–54%",wilted:"1–34%",gray:"Nothing marked"}[k]}
 function tipLegendHTML(){
   var ym=today().slice(0,7),hue=paletteFor(ym)[0];
   return '<ul class="keygrid">'+TIERS.map(function(tr){
@@ -1381,32 +1146,30 @@ function progressHTML(){
   var label=future?"Ahead":(sc.got||sc.water&&sc.waterOnly)?tier.name:(ds<t&&ds>=settings.start?"Gray":"Not started");
   var drop='<svg class="drop" viewBox="0 0 16 20" aria-hidden="true"><path d="M8 1.5C8 1.5 2 9.2 2 13.2a6 6 0 0 0 12 0C14 9.2 8 1.5 8 1.5Z"/><path d="M5.2 13.4a2.8 2.8 0 0 0 2.4 2.7" fill="none"/></svg>';
   var hint,water=false;
-  if(future)hint="You can check tasks off once the day arrives";
+  if(future)hint="You can mark half-hours once the day arrives";
   else if(sc.waterOnly&&ds<=t){
     water=ds===t&&sc.water<8;
-    hint=ds<t?(sc.water?"No tasks — "+sc.water+" of 8 drops":"No tasks or water logged this day")
-      :sc.water>=8?"All 8 drops — full bloom!":"No tasks today, so water is the goal — fill all 8 drops";
+    hint=ds<t?(sc.water?sc.water+" of 8 drops":"Nothing logged this day")
+      :sc.water>=8?"All 8 drops — full bloom!":"No hours set, so water is the goal — fill all 8 drops";
   }
-  else if(ds<t)hint=sc.got?"This day finished in "+tier.name.toLowerCase():"Nothing was checked off this day";
-  else if((sc.priLeft||sc.dry)&&sc.got/sc.max>=.9){
+  else if(ds<t)hint=sc.got?"This day finished in "+tier.name.toLowerCase():"No half-hours were marked this day";
+  else if(sc.dry&&sc.got/sc.max>=.9){
     water=sc.dry;
-    hint=sc.priLeft&&sc.dry?"Finish your priorities and drink a glass of water for full bloom"
-      :sc.priLeft?"Finish your "+(sc.priLeft===1?"last priority":"priorities")+" for full bloom"
-      :"Drink at least one glass of water for full bloom";
+    hint="Drink at least one glass of water for full bloom";
   }
   else if(p>=.9)hint="Full bloom — nicely done";
   else{
     water=true;
-    hint=!sc.got?"Drink some water and start your first task"
-      :tier.k==="wilted"?"Hydrate and complete more tasks to prevent wilting"
-      :tier.k==="wilting"?"Hydrate and finish a few more tasks to perk up"
-      :tier.k==="fading"?"Water break, then a few more tasks to brighten up"
-      :"A sip of water and a few more tasks to full bloom";
+    hint=!sc.got?"Drink some water and mark your first half-hour"
+      :tier.k==="wilted"?"Hydrate and mark more half-hours to stop the wilting"
+      :tier.k==="wilting"?"Hydrate and mark a few more half-hours to perk up"
+      :tier.k==="fading"?"Water break, then a few more half-hours to brighten up"
+      :"A sip of water and a few more half-hours to full bloom";
   }
   var col=(sc.got||sc.waterOnly&&sc.water)&&!future?tierFill(tier.k,hueFor(ds),ds):"var(--ink)";
   if(String(col).indexOf("url(")===0)col=tier.k==="gray"?"#A2A29B":"#58391F";
   return '<div class="prog" role="group" aria-label="Progress for '+fmtDay(ds)+'">'+
-    '<div class="progtop"><b>'+(ds===t?"Today":fmtShort(ds))+'</b><span>'+label+' · '+(sc.waterOnly?sc.water+'/8 drops':sc.got+'/'+sc.max+' pts')+'</span></div>'+
+    '<div class="progtop"><b>'+(ds===t?"Today":fmtShort(ds))+'</b><span>'+label+' · '+(sc.waterOnly?sc.water+'/8 drops':sc.got+'/'+sc.max+' half-hours')+'</span></div>'+
     '<div class="meter sm" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.round(p*100)+'"><i style="width:'+(p*100).toFixed(1)+'%;background:'+col+'"></i></div>'+
     '<p class="hint">'+(water?drop:'')+'<span>'+hint+'</span></p>'+waterRow(ds,sc.water,future)+'</div>';
 }
@@ -1416,7 +1179,7 @@ function onSwipe(el,prev,next){
   if(!el||el._sw)return;el._sw=1;
   var x0=null,y0=0,t0=0;
   el.addEventListener("touchstart",function(e){
-    if(e.touches.length!==1||e.target.closest("input,textarea,select")){x0=null;return}
+    if(e.touches.length!==1||e.target.closest("input,textarea,select,.slots")){x0=null;return}
     x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now();
   },{passive:true});
   el.addEventListener("touchend",function(e){
@@ -1427,9 +1190,13 @@ function onSwipe(el,prev,next){
   },{passive:true});
 }
 function renderBouquet(){
-  var el=document.getElementById("v-bouquet"),t=today(),yi=currentYearIdx();
-  var mi=Math.max(0,monthIndex(t.slice(0,7))),count=mi-yi*12+1;
-  var cur=yearMonthsFor(yi)[count-1],mode=settings.gview||"grown",ahead=Math.max(0,Math.min(12,settings.ahead||0));
+  var el=document.getElementById("v-bouquet"),t=today(),cyi=currentYearIdx(),mode=settings.gview||"grown";
+  var maxYi=mode==="grown"?cyi:cyi+50;
+  var yi=gyi===null?cyi:Math.max(0,Math.min(maxYi,gyi));gyi=yi===cyi?null:yi;
+  var mi=Math.max(0,monthIndex(t.slice(0,7))),ccount=mi-cyi*12+1;
+  var count=yi<cyi?13:yi>cyi?0:ccount; // months reached this year (13 = all finished)
+  var yms=yearMonthsFor(yi),cur=yi===cyi?yms[ccount-1]:yms[0];
+  var ahead=yi===cyi?Math.max(0,Math.min(12,settings.ahead||0)):0;
   var seg='<div class="seg" role="group" aria-label="Garden view">'+
     [["month","Month"],["grown","So far"],["year","Full year"]].map(function(o){
       return '<button data-gv="'+o[0]+'" aria-pressed="'+(mode===o[0])+'">'+o[1]+'</button>'}).join("")+'</div>';
@@ -1445,18 +1212,24 @@ function renderBouquet(){
     s+='<div class="mswipe" id="mSwipe">'+top+monthSVG(ym)+'</div>'+progressHTML();
   }else{
     var shown=mode==="year"?12:Math.min(12,count+ahead);
-    var over=mode==="year"?0:Math.max(0,count+ahead-12);
-    var line=mode==="year"
-      ? 'Year '+(yi+1)+' · '+(count-1)+' finished, '+(12-count)+' ahead'
-      : MONTHS[cur.m]+' · '+colorName(cur.ym)+' · growing · '+(count-1)+' finished'+(ahead?' · '+ahead+' ahead':'');
-    s+='<div class="ghead"><p class="hand">'+line+'</p></div>';
-    if(mode==="grown"){
+    var over=mode==="year"||yi!==cyi?0:Math.max(0,count+ahead-12);
+    var line=yi<cyi?'All 12 finished'
+      : yi>cyi?'All 12 ahead'
+      : mode==="year"
+      ? (count-1)+' finished, '+(12-count)+' ahead'
+      : MONTHS[cur.m]+' · '+colorName(cur.ym)+' · '+(count-1)+' finished'+(ahead?' · '+ahead+' ahead':'');
+    var span=MONTHS[yms[0].m].slice(0,3)+' '+yms[0].y+' – '+MONTHS[yms[11].m].slice(0,3)+' '+yms[11].y;
+    top='<div class="mhead"><button class="circ" id="gpy" aria-label="Previous year"'+(yi<=0?" disabled":"")+'>‹</button>'+
+      '<div class="mt"><h2>Year '+(yi+1)+'</h2><p class="hand muted">'+span+' · '+line+'</p>'+
+      (yi!==cyi?'<button class="jump" id="gty">Back to this year</button>':'')+'</div>'+
+      '<button class="circ" id="gny" aria-label="Next year"'+(yi>=maxYi?" disabled":"")+'>›</button></div>';
+    if(mode==="grown"&&yi===cyi){
       s+='<div class="ahead"><span class="hand">Months ahead</span>'+
         '<button class="circ sm" id="ahm" aria-label="Show fewer months ahead"'+(ahead<=0?" disabled":"")+'>−</button>'+
         '<b aria-live="polite">'+ahead+'</b>'+
         '<button class="circ sm" id="ahp" aria-label="Show more months ahead"'+(ahead>=12?" disabled":"")+'>+</button></div>';
     }
-    s+=gardenSVG(yi,shown,true)+progressHTML();
+    s+='<div class="mswipe" id="ySwipe">'+top+gardenSVG(yi,shown,true)+'</div>'+progressHTML();
     if(over>0){
       var nx=yearMonthsFor(yi+1);
       s+='<h3 class="hand" style="font-weight:400">Coming up in year '+(yi+2)+'</h3>'+gardenSVG(yi+1,over,true);
@@ -1467,7 +1240,7 @@ function renderBouquet(){
   Object.keys(months).forEach(function(ym){Object.keys(months[ym]).forEach(function(d){var r=months[ym][d];if(r.p>0)logged++;if(r.p>=.9)full++})});
 
   var past="";
-  for(var y=yi-1;y>=0;y--){
+  for(var y=cyi-1;y>=0;y--){
     var ms=yearMonthsFor(y);
     past+='<h3>Year '+(y+1)+' · '+MONTHS[ms[0].m].slice(0,3)+' '+ms[0].y+' – '+MONTHS[ms[11].m].slice(0,3)+' '+ms[11].y+'</h3>'+gardenSVG(y,12,false);
   }
@@ -1504,6 +1277,21 @@ function renderBouquet(){
     if(swiped)return;
     var f=document.getElementById(n<0?"gpm":"gnm");if(f&&!f.disabled)f.focus({preventScroll:true});else{f=document.getElementById("gnm");if(f)f.focus({preventScroll:true})}
   }
+  function goYear(n,swiped){
+    var cy=currentYearIdx(),lim=(settings.gview||"grown")==="grown"?cy:cy+50;
+    var cur=gyi===null?cy:gyi,nx=Math.max(0,Math.min(lim,cur+n));
+    if(nx===cur)return;
+    gyi=nx===cy?null:nx;
+    slide={what:"y",dir:n};
+    var y=window.scrollY;renderBouquet();window.scrollTo(0,y);
+    if(swiped)return;
+    var f=document.getElementById(n<0?"gpy":"gny");if(f&&!f.disabled)f.focus({preventScroll:true});else{f=document.getElementById(n<0?"gny":"gpy");if(f)f.focus({preventScroll:true})}
+  }
+  var py=document.getElementById("gpy"),ny=document.getElementById("gny"),ty=document.getElementById("gty");
+  if(py)py.onclick=function(){goYear(-1)};
+  if(ny)ny.onclick=function(){goYear(1)};
+  if(ty)ty.onclick=function(){gyi=null;var y=window.scrollY;renderBouquet();window.scrollTo(0,y);var f=document.getElementById("gpy");if(f)f.focus({preventScroll:true})};
+  onSwipe(document.getElementById("ySwipe"),function(){goYear(-1,true)},function(){goYear(1,true)});
   var pm=document.getElementById("gpm"),nm=document.getElementById("gnm");
   if(pm)pm.onclick=function(){goMonth(-1)};
   if(nm)nm.onclick=function(){goMonth(1)};
@@ -1520,7 +1308,7 @@ function renderBouquet(){
   var tl=el.querySelector(".tolist");
   if(tl)tl.onclick=function(e){e.preventDefault();var dp=document.getElementById("dayPanel");if(dp)dp.scrollIntoView({behavior:"smooth",block:"start"})};
   if(slide){
-    var tg=slide.what==="m"?document.querySelector("#mSwipe .bq"):document.getElementById("dayPanel");
+    var tg=slide.what==="m"?document.querySelector("#mSwipe .bq"):slide.what==="y"?document.querySelector("#ySwipe .bq"):document.getElementById("dayPanel");
     if(tg)tg.classList.add(slide.dir>0?"sl-n":"sl-p");
     slide=null;
   }
@@ -1553,7 +1341,6 @@ function moodGrid(ds){
     }
     ym=addMonths(ym,1);
   }
-  var leg=MOODS.map(function(x){return '<span><i style="background:'+x[2]+'"></i>'+x[1]+(counts[x[0]]?' · '+counts[x[0]]:'')+'</span>'}).join("");
   return '<section class="moodgrid" aria-labelledby="mgH"><h3 id="mgH">Your moods overall</h3>'+
     '<p class="small muted" style="margin:0 0 10px">'+(any?"One row per month, one square per day. Tap a square to open that day.":"Pick a mood above and each month fills in as a row here.")+'</p>'+
     '<div class="mm">'+head+rows+'</div></section>';
@@ -1567,238 +1354,101 @@ function setMeta(ds,obj){
   saveLocal();
 }
 
-/* ---------- task editor ---------- */
-var dlgState=null;
-function uid(){return "c"+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36)}
-function hhmm(m){return pad(Math.floor(m/60)%24)+":"+pad(m%60)}
-function openTask(ds,id,at){
-  var dlg=document.getElementById("dlg"),dow=parse(ds).getDay(),dn=DOW[dow];
-  var it=id?items(ds).filter(function(i){return i.id===id})[0]:null;
-  dlgState={ds:ds,id:id,it:it};
-  document.getElementById("dlgT").textContent=it?"Edit task":"Add a task";
-  document.getElementById("fName").value=it?it.name:"";
-  document.getElementById("fSub").value=it?(it.sub||""):"";
-  document.getElementById("fTime").value=hhmm(it?it.t:(at!=null?at:toMin(settings.free)+60));
-  document.getElementById("fDur").value=it?it.dur:25;
-  var cv=it&&CAT_NAMES[it.cat]&&it.cat!=="pri"?it.cat:"other";
-  document.querySelectorAll('#fCat input').forEach(function(r){r.checked=r.value===cv});
-  var scopes=it
-    ? [["day","Just "+fmtShort(ds)],["week","Every "+dn]]
-    : [["day","Just "+fmtShort(ds)],["week","Every "+dn],["weekdays","Weekdays"],["all","Every day"]];
-  if(it&&it.custom==="day")scopes=[["day","Just "+fmtShort(ds)]];
-  document.getElementById("fScope").innerHTML=scopes.map(function(s,i){
-    return '<label><input type="radio" name="scope" value="'+s[0]+'"'+(i===0?" checked":"")+'>'+s[1]+'</label>'}).join("");
-  document.getElementById("fDel").style.display=it?"":"none";
-  if(typeof dlg.showModal==="function")dlg.showModal();else dlg.setAttribute("open","");
-  setTimeout(function(){document.getElementById("fName").focus()},30);
+/* the page has an 18px dot grid; shift the list so its row lines sit on it */
+/* notes grow to fit what's written; rows stay on the 18px grid */
+function fitSlot(ta){
+  ta.style.height="auto";var h=ta.scrollHeight+1;ta.style.height=h+"px";
+  var li=ta.parentNode;if(li)li.style.minHeight=Math.max(36,h+10)+"px";
 }
-function closeTask(){var d=document.getElementById("dlg");if(d.close)d.close();else d.removeAttribute("open");dlgState=null}
-function scopeDows(scope,dow){return scope==="weekdays"?[1,2,3,4,5]:scope==="all"?[0,1,2,3,4,5,6]:[dow]}
-function saveTask(){
-  var S=dlgState;if(!S)return;
-  var name=document.getElementById("fName").value.trim();if(!name)return;
-  var data={name:name,sub:document.getElementById("fSub").value.trim(),t:toMin(document.getElementById("fTime").value),
-    dur:Math.max(5,+document.getElementById("fDur").value||25),cat:(document.querySelector('#fCat input:checked')||{}).value||"other"};
-  data.pts=PTS[data.cat]||1;
-  var scope=(document.querySelector('#fScope input:checked')||{}).value||"day",dow=parse(S.ds).getDay();
-  var x=dayx[S.ds]=dayx[S.ds]||{};
-  if(!S.it){
-    var nid=uid(),item=Object.assign({id:nid},data);
-    if(scope==="day"){(x.add=x.add||[]).push(item)}
-    else scopeDows(scope,dow).forEach(function(d){(routine.add[d]=routine.add[d]||[]).push(Object.assign({},item))});
-  }else if(S.it.custom==="day"){
-    x.add=x.add.map(function(i){return i.id===S.id?Object.assign({},i,data):i});
-  }else if(S.it.custom==="week"&&scope==="week"){
-    routine.add[dow]=routine.add[dow].map(function(i){return i.id===S.id?Object.assign({},i,data):i});
-  }else if(scope==="day"){
-    x.edit=x.edit||{};x.edit[S.id]=data;
-  }else{
-    routine.edit[dow]=routine.edit[dow]||{};routine.edit[dow][S.id]=data;
-    if(x.edit)delete x.edit[S.id];
-  }
-  rescore(S.ds);saveLocal();closeTask();
-  var y=window.scrollY;renderBouquet();window.scrollTo(0,y);
+function fitNote(ta){
+  ta.style.height="auto";
+  var min=parseFloat(getComputedStyle(ta).minHeight)||0;
+  ta.style.height=Math.max(min,ta.scrollHeight+2)+"px";
 }
-function deleteTask(){
-  var S=dlgState;if(!S||!S.it)return;
-  var scope=(document.querySelector('#fScope input:checked')||{}).value||"day",dow=parse(S.ds).getDay();
-  var x=dayx[S.ds]=dayx[S.ds]||{};
-  if(S.it.custom==="day")x.add=x.add.filter(function(i){return i.id!==S.id});
-  else if(S.it.custom==="week"&&scope==="week")routine.add[dow]=routine.add[dow].filter(function(i){return i.id!==S.id});
-  else if(scope==="day")(x.hide=x.hide||[]).push(S.id);
-  else (routine.hide[dow]=routine.hide[dow]||[]).push(S.id);
-  rescore(S.ds);saveLocal();closeTask();
-  var y=window.scrollY;renderBouquet();window.scrollTo(0,y);
+function alignSlots(){
+  document.querySelectorAll(".slots .sn").forEach(fitSlot);
+  var nt=document.getElementById("note");if(nt)fitNote(nt);
+  var ul=document.querySelector(".slots");if(!ul)return;
+  ul.style.paddingTop="0px";
+  var top=ul.getBoundingClientRect().top+window.scrollY;
+  ul.style.paddingTop=((18-(top%18))%18).toFixed(2)+"px";
 }
-
-function timelineHTML(tasks,ds){
-  var real=tasks.filter(function(t){return !t.info});
-  var lo=360,hi=1320;
-  real.forEach(function(t){lo=Math.min(lo,t.t);hi=Math.max(hi,t.t+t.dur)});
-  lo=Math.floor(lo/30)*30;hi=Math.min(1440,Math.ceil(hi/30)*30);
-  var s='<p class="small muted" style="margin:14px 0 4px">Your day in 30-minute slots. Tap ✎ to change a task or + to add one at that time.</p><ol class="tl">';
-  for(var m=lo;m<hi;m+=30){
-    var starts=tasks.filter(function(t){return t.t>=m&&t.t<m+30});
-    var cont=real.filter(function(t){return t.t<m&&t.t+t.dur>m});
-    var body="";
-    starts.forEach(function(t){
-      if(t.info){body+='<div class="tli info">'+esc(t.name)+'</div>';return}
-      body+='<div class="tli c-'+t.cat+'"><button class="edit" data-eid="'+t.id+'" aria-label="Edit '+esc(t.name)+'">✎</button>'+
-        '<span><b>'+esc(t.name)+'</b><span class="muted small"> '+fmtTime(t.t)+' · '+t.dur+' min · '+t.pts+' pt'+(t.pts>1?"s":"")+
-        (t.custom==="day"?" · today only":"")+'</span></span></div>';
-    });
-    if(!starts.length&&cont.length)body='<div class="tlc">↳ '+esc(cont[0].name)+'</div>';
-    s+='<li class="'+(m%60===0?"hr":"")+(!starts.length&&!cont.length?" free":"")+'"><span class="tlt">'+(m%60===0?fmtTime(m).replace(":00",""):fmtTime(m).replace(/ (am|pm)/,""))+'</span>'+
-      '<div class="tlb">'+body+'</div><button class="tladd" data-at="'+m+'" aria-label="Add a task at '+fmtTime(m)+'">+</button></li>';
-  }
-  return s+'</ol>';
-}
+addEventListener("resize",function(){clearTimeout(alignSlots._t);alignSlots._t=setTimeout(alignSlots,120)});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(alignSlots);
 
 function renderDay(){
   var el=document.getElementById("dayPanel"),ds=dayDs,t=today();
   if(!el)return;
-  var its=items(ds),c=checks(ds),future=ds>t;
-  var sc=scoreFor(ds,c),max=sc.max,got=sc.got,p=sc.p,tier=tierOf(p),hue=hueFor(ds);
-  var nextT=null;for(var i=TIERS.length-1;i>=0;i--){if(TIERS[i].min>p+1e-9){nextT=TIERS[i];break}}
-  var need=nextT?Math.ceil(nextT.min*max-1e-9)-got:0;
-  var ctx=contextFor(ds);
-  var fill=got?tierFill(tier.k,hue,ds):(ds<t&&ds>=settings.start?"url(#mottle)":null);
+  var slots=slotMins(),c=checks(ds),notes=slotNotes(ds),future=ds>t;
 
-  var dueNow=ctx.due&&/tonight/.test(ctx.due);
-  var nowM=new Date().getHours()*60+new Date().getMinutes();
-  var todo=its.filter(function(it){return !it.pri&&!it.info&&c.indexOf(it.id)<0});
-  var late=ds===t?todo.filter(function(it){return it.t+(it.dur||0)<=nowM}):ds<t?todo.slice():[];
-  var nxt=ds<t?null:todo.filter(function(it){return ds!==t||it.t+(it.dur||0)>nowM})[0];
-  function pill(it,kind){
-    var lbl=kind==="now"?"Now":fmtTime(it.t);
-    return '<button class="due'+(kind==="late"?" late":kind==="now"?" cur":"")+'" data-go="'+it.id+'" aria-label="'+
-      (kind==="late"?"Overdue, not checked: ":kind==="now"?"Happening now: ":"Next: ")+esc(it.name)+' at '+fmtTime(it.t)+'. Go to it in the schedule">'+
-      '<span class="nt">'+lbl+'</span><span class="nn">'+esc(it.name)+'</span></button>';
-  }
-  var pills="";
-  if(!editing){
-    var shownLate=late.slice(-2),hiddenLate=late.length-shownLate.length;
-    if(hiddenLate>0)pills+='<button class="due late more" data-go="'+late[0].id+'" aria-label="'+hiddenLate+' more overdue, go to the earliest">+'+hiddenLate+' earlier</button>';
-    pills+=shownLate.map(function(it){return pill(it,"late")}).join("");
-    if(nxt)pills+=pill(nxt,ds===t&&nxt.t<=nowM?"now":"next");
-  }
-  var h='<div class="dayhead"><button class="circ" id="dp" aria-label="Previous day">‹</button>'+
-    '<div class="dmid"><h2>'+DOW[parse(ds).getDay()].slice(0,3)+', '+MONTHS[parse(ds).getMonth()]+' '+parse(ds).getDate()+'</h2>'+(ctx.line?'<p class="ctx">'+esc(ctx.line)+'</p>':'')+
-    (ctx.due?'<p class="ctx duel'+(dueNow?' now':'')+'">'+esc(ctx.due)+'</p>':'')+
-    (pills?'<div class="pills">'+pills+'</div>':'')+'<div class="dtags">'+
-    '<button class="chip sm" id="'+(editing?"doneEdit":"editDay")+'" aria-pressed="'+editing+'">'+(editing?"Done":"✎ Edit")+'</button>'+
-    '</div>'+(ds!==t?'<button class="jump" id="dt">Back to today</button>':'')+'</div>'+
-    '<button class="circ" id="dn" aria-label="Next day">›</button></div>';
+  var h='<div class="dayhead"><button class="circ" id="dp" aria-label="Previous day">\u2039</button>'+
+    '<div class="dmid"><h2>'+DOW[parse(ds).getDay()].slice(0,3)+', '+MONTHS[parse(ds).getMonth()]+' '+parse(ds).getDate()+'</h2>'+
+'<div class="dtags"><button class="chip sm" id="cmpBtn">\u21bb Same day, other years</button></div>'+
+    (ds!==t?'<button class="jump" id="dt">Back to today</button>':'')+'</div>'+
+    '<button class="circ" id="dn" aria-label="Next day">\u203a</button></div>';
 
   if(ds<settings.start){
     h+='<p class="muted" style="margin-top:18px">This is before you started tracking, so this section stays pale green. You can move your start date in Settings.</p>';
   }
-  var pris=its.filter(function(it){return it.pri});
-  h+='<section class="pri" aria-labelledby="priH"><div class="prihead"><h3 id="priH">Priorities</h3><span class="hand muted">Must be done for a full-bloom day</span></div>';
-  if(pris.length){
-    h+='<ul class="prilist">'+pris.map(function(it){
-      var on=c.indexOf(it.id)>-1,undone=!on;
-      return '<li class="'+(on?"on":"")+'"><button class="box" data-id="'+it.id+'" aria-pressed="'+on+'"'+(future?" disabled":"")+' aria-label="Priority: '+esc(it.name)+'"></button>'+
-        '<span class="nm">'+esc(it.name)+'</span>'+
-        (undone?'<button class="linkbtn pmove" data-pmove="'+it.id+'" aria-label="Move '+esc(it.name)+' to the next day">→ next day</button>':'')+
-        '<button class="pdel" data-pdel="'+it.id+'" aria-label="Delete '+esc(it.name)+'">✕</button></li>'}).join("")+'</ul>';
-  }else{
-    h+='<p class="small muted" style="margin:4px 0 0">Nothing yet. Add the one to three things that would make this day count.</p>';
-  }
-  h+='<form class="priadd" id="priForm"><label for="priIn" class="sr">New priority</label><input id="priIn" maxlength="100" placeholder="Add a priority…" autocomplete="off"><button class="btn" type="submit">Add</button></form></section>';
-
-  var dname=DOW[parse(ds).getDay()];
-  var tasks=its.filter(function(it){return !it.pri});
-  if(editing){
-    h+=timelineHTML(tasks,ds);
-    var hid=hiddenItems(ds);
-    if(hid.length){
-      h+='<div class="hidden-list"><b>Removed</b><ul>'+hid.map(function(x){
-        return '<li><span>'+esc(x.it.name)+' <span class="muted small">('+(x.scope==="day"?"this day":"every "+dname)+')</span></span>'+
-          '<button class="linkbtn" data-restore="'+x.it.id+'" data-scope="'+x.scope+'">Restore</button></li>'}).join("")+'</ul></div>';
-    }
-  }else if(!tasks.length){
-    h+='<div class="empty"><p>No tasks on this day yet, so today\u2019s color comes from your water drops.</p><button class="btn" id="startEdit">✎ Build this day</button>'+'</div>';
-  }else{
-    var part="";
-    h+='<div>';
-    tasks.forEach(function(it){
-      if(it.part!==part){if(part)h+='</ul>';part=it.part;h+='<p class="group">'+part+'</p><ul class="items">'}
-      if(it.info){h+='<li class="info"><span class="t">'+fmtTime(it.t)+'</span><div class="it">'+esc(it.name)+'</div></li>';return}
-      var on=c.indexOf(it.id)>-1;
-      var tag=it.custom==="day"?'<span class="custom-tag">today only</span>':'';
-      var pp='<span class="pp" aria-hidden="true">'+new Array(it.pts+1).join("<i></i>")+'</span>';
-      h+='<li id="row-'+it.id+'" class="'+(on?"on ":"")+(it.cat==="brk"?"brk":"")+'"><span class="t">'+fmtTime(it.t)+'</span>'+
-        '<button class="box" data-id="'+it.id+'" aria-pressed="'+on+'"'+(future?" disabled":"")+' aria-label="'+esc(it.name)+', '+it.pts+' point'+(it.pts>1?"s":"")+'"></button>'+
-        '<div class="it"><span class="nm">'+esc(it.name)+pp+tag+'</span>'+(it.sub?'<span class="sb">'+esc(it.sub)+' · '+it.dur+' min</span>':'<span class="sb">'+it.dur+' min</span>')+'</div></li>';
-    });
-    h+='</ul></div>';
-  }
+  h+='<p class="group">'+fmtTime(slots[0])+' \u2013 '+fmtTime(slots[slots.length-1]+30)+'</p>'+
+     '<p class="small muted" style="margin:0 0 4px">Tap a circle for a half-hour that went well. The note is optional.</p>';
+  h+='<ul class="slots">'+slots.map(function(m){
+    var k=slotKey(m),on=c.indexOf(k)>-1;
+    return '<li class="'+(on?"on":"")+(m%60===0?" hr":"")+'"><span class="t">'+fmtTime(m)+'</span>'+
+      '<button class="box" data-slot="'+k+'" aria-pressed="'+on+'"'+(future?" disabled":"")+' aria-label="'+fmtTime(m)+' went well"></button>'+
+      '<textarea class="sn" rows="1" data-note="'+k+'" maxlength="140" autocomplete="off" placeholder="\u2026"'+
+      (future?" disabled":"")+' aria-label="What you did at '+fmtTime(m)+'">'+esc(notes[k]||"")+'</textarea></li>';
+  }).join("")+'</ul>';
 
   var r0=rec(ds)||{};
   h+='<p class="group">How was the day?</p><div class="moods">'+MOODS.map(function(m){
-    return '<button class="chip" data-mood="'+m[0]+'" aria-pressed="'+(r0.mood===m[0])+'"><i style="background:'+m[2]+'"></i>'+m[1]+'</button>'}).join("")+'</div>'+
-    '<label for="note" class="sr">Notes</label><textarea id="note" placeholder="Notes, wins, what got in the way…" maxlength="2000">'+esc(r0.note||"")+'</textarea>'+
-    moodGrid(ds);
+    return '<button class="chip" data-mood="'+m[0]+'" aria-pressed="'+(r0.mood===m[0])+'"><i style="background:'+m[2]+'"></i>'+m[1]+'</button>'}).join("")+'</div>';
+  h+='<p class="group">Notes</p><label for="note" class="sr">Notes for the day</label><textarea id="note" placeholder="Notes, wins, what got in the way\u2026" maxlength="2000">'+esc(r0.note||"")+'</textarea>'+moodGrid(ds);
   el.innerHTML=h;
+  alignSlots();
 
-  function redraw(focusSel){var y=window.scrollY;renderBouquet();window.scrollTo(0,y);var n=focusSel&&document.querySelector(focusSel);if(n)n.focus({preventScroll:true})}
-  el.querySelectorAll(".pills [data-go]").forEach(function(nu){nu.onclick=function(){
-    var row=document.getElementById("row-"+nu.getAttribute("data-go"));if(!row)return;
-    var rm=matchMedia("(prefers-reduced-motion: reduce)").matches;
-    row.scrollIntoView({behavior:rm?"auto":"smooth",block:"center"});
-    row.classList.remove("flash");void row.offsetWidth;row.classList.add("flash");
-    var b=row.querySelector(".box");if(b)setTimeout(function(){b.focus({preventScroll:true})},rm?0:450);
-  }});
+  var noteT=null,pending=null;
+  function flushNotes(){
+    if(noteT){clearTimeout(noteT);noteT=null}
+    if(pending){setMeta(pending.ds,{s:pending.s});pending=null}
+  }
+  function redraw(focusSel){flushNotes();var y=window.scrollY;renderBouquet();window.scrollTo(0,y);var n=focusSel&&document.querySelector(focusSel);if(n)n.focus({preventScroll:true})}
   function goDay(n,swiped){dayDs=addDays(dayDs,n);slide={what:"d",dir:n};redraw(swiped?null:(n<0?"#dp":"#dn"))}
   document.getElementById("dp").onclick=function(){goDay(-1)};
   document.getElementById("dn").onclick=function(){goDay(1)};
   onSwipe(el,function(){goDay(-1,true)},function(){goDay(1,true)});
   var dt=document.getElementById("dt");if(dt)dt.onclick=function(){dayDs=today();redraw("#dp")};
-  var pf=document.getElementById("priForm");
-  if(pf)pf.onsubmit=function(e){
-    e.preventDefault();var v=document.getElementById("priIn").value.trim();if(!v)return;
-    var x=dayx[dayDs]=dayx[dayDs]||{};(x.pri=x.pri||[]).push({id:"p"+uid(),name:v});
-    rescore(dayDs);saveLocal();redraw("#priIn");
-  };
-  el.querySelectorAll("[data-pdel]").forEach(function(b){b.onclick=function(){
-    var id=b.getAttribute("data-pdel"),x=dayx[dayDs];x.pri=x.pri.filter(function(p){return p.id!==id});
-    rescore(dayDs);saveLocal();redraw("#priIn");
-  }});
-  el.querySelectorAll("[data-pmove]").forEach(function(b){b.onclick=function(){
-    var id=b.getAttribute("data-pmove"),x=dayx[dayDs],pr=x.pri.filter(function(p){return p.id===id})[0];
-    x.pri=x.pri.filter(function(p){return p.id!==id});
-    var nd=addDays(dayDs,1),nx=dayx[nd]=dayx[nd]||{};(nx.pri=nx.pri||[]).push({id:pr.id,name:pr.name});
-    rescore(dayDs);rescore(nd);saveLocal();redraw("#priIn");
-  }});
-  el.querySelectorAll("[data-mg]").forEach(function(b){b.onclick=function(){
-    dayDs=b.getAttribute("data-mg");var y=window.scrollY;renderBouquet();window.scrollTo(0,y);
-    var dp=document.getElementById("dayPanel");if(dp)dp.scrollIntoView({behavior:"smooth",block:"start"});
-  }});
-  var ed=document.getElementById("editDay");if(ed)ed.onclick=function(){editing=true;redraw("#doneEdit")};
-  var se=document.getElementById("startEdit");if(se)se.onclick=function(){editing=true;redraw("#doneEdit")};
-  var de=document.getElementById("doneEdit");if(de)de.onclick=function(){editing=false;redraw("#editDay")};
-  el.querySelectorAll("[data-at]").forEach(function(b){b.onclick=function(){openTask(dayDs,null,+b.getAttribute("data-at"))}});
-  el.querySelectorAll("[data-eid]").forEach(function(b){b.onclick=function(){openTask(dayDs,b.getAttribute("data-eid"))}});
-  el.querySelectorAll("[data-restore]").forEach(function(b){
-    b.onclick=function(){
-      var id=b.getAttribute("data-restore"),dow=parse(dayDs).getDay();
-      if(b.getAttribute("data-scope")==="day"){var x=dayx[dayDs];x.hide=x.hide.filter(function(i){return i!==id})}
-      else routine.hide[dow]=(routine.hide[dow]||[]).filter(function(i){return i!==id});
-      rescore(dayDs);saveLocal();redraw("#doneEdit");
-    };
-  });
+  document.getElementById("cmpBtn").onclick=function(){cmpDs=dayDs;setView("compare")};
   el.querySelectorAll("[data-mood]").forEach(function(b){
     b.onclick=function(){var m=b.getAttribute("data-mood"),r=rec(dayDs);setMeta(dayDs,{mood:r&&r.mood===m?"":m});redraw('[data-mood="'+m+'"]')};
   });
+  el.querySelectorAll("[data-mg]").forEach(function(b){
+    b.onclick=function(){dayDs=b.getAttribute("data-mg");redraw(null);
+      var dp=document.getElementById("dayPanel");if(dp)dp.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"})};
+  });
   var nt=document.getElementById("note"),ntT=null;
-  if(nt)nt.oninput=function(){clearTimeout(ntT);var v=nt.value,d=dayDs;ntT=setTimeout(function(){setMeta(d,{note:v})},400)};
+  if(nt)nt.oninput=function(){fitNote(nt);clearTimeout(ntT);var v=nt.value,d=dayDs;ntT=setTimeout(function(){setMeta(d,{note:v})},400)};
+
+  // notes save as you type, without redrawing, so the field keeps focus
+  el.querySelectorAll(".sn").forEach(function(inp){
+    inp.onkeydown=function(e){if(e.key==="Enter"&&!e.isComposing){e.preventDefault();inp.blur()}};
+    inp.oninput=function(){
+      if(/[\r\n]/.test(inp.value))inp.value=inp.value.replace(/[\r\n]+/g," ");
+      fitSlot(inp);
+      var d=dayDs,k=inp.getAttribute("data-note");
+      var obj=Object.assign({},(pending&&pending.ds===d?pending.s:slotNotes(d)));
+      if(inp.value.trim())obj[k]=inp.value;else delete obj[k];
+      pending={ds:d,s:obj};
+      clearTimeout(noteT);noteT=setTimeout(flushNotes,500);
+    };
+    inp.onblur=flushNotes;
+  });
   el.querySelectorAll(".box").forEach(function(b){
     b.onclick=function(){
-      var id=b.getAttribute("data-id"),arr=checks(dayDs).slice(),k=arr.indexOf(id);
-      if(k>-1)arr.splice(k,1);else arr.push(id);
+      var k=b.getAttribute("data-slot"),arr=checks(dayDs).slice(),i=arr.indexOf(k);
+      if(i>-1)arr.splice(i,1);else arr.push(k);
       setChecks(dayDs,arr);
-      redraw('.box[data-id="'+id+'"]');
+      redraw('.box[data-slot="'+k+'"]');
     };
   });
 }
@@ -1806,35 +1456,87 @@ function renderDay(){
 function renderPlan(){
   var el=document.getElementById("v-plan");
   var h='<h2>Settings</h2>';
-  h+='<div class="card"><h3>Fit it to your day</h3>'+
-    '<p class="small muted">Times shift everything else. Changing these never changes past days.</p>'+
+  h+='<div class="card" id="searchCard"><h3>Search your entries</h3>'+
+    '<p class="small muted">Finds words in your half-hour notes and daily notes.</p>'+
+    '<label for="sq" class="sr">Search your entries</label>'+
+    '<input type="search" id="sq" class="srch" placeholder="Try \u201cessay\u201d or \u201cgym\u201d" autocomplete="off" value="'+esc(searchQ)+'">'+
+    '<p class="hand muted" id="sqc" aria-live="polite" style="margin:8px 0 0"></p><ul class="sres" id="sqr"></ul></div>';
+  h+='<div class="card"><h3>Your tracking hours</h3>'+
+    '<p class="small muted">The day is tracked in half-hour steps between these times. Changing them never changes the color of past days.</p>'+
     '<div class="form">'+
-    '<label for="sw">Wake up (weekdays)</label><input type="time" id="sw" value="'+settings.wake+'">'+
-    '<label for="sf">Free from (weekdays)</label><input type="time" id="sf" value="'+settings.free+'">'+
+    '<label for="sw">Day starts</label><input type="time" id="sw" step="1800" value="'+settings.wake+'">'+
+    '<label for="sf">Day ends</label><input type="time" id="sf" step="1800" value="'+settings.end+'">'+
     '<label for="ss">Started tracking</label><input type="date" id="ss" value="'+settings.start+'">'+
     '</div><button class="btn" id="sv">Save times</button> <span class="hand muted" id="svm"></span></div>'+
-    '<div class="card"><h3>Your routine</h3>'+
-    '<p class="small muted">To add, change or remove tasks, open any day and tap <b>✎ Edit</b>. Changes can apply to one day, one weekday, weekdays, or every day.</p>'+
-    '<p class="small">'+routineSummary()+'</p>'+
-    '<p class="small muted" style="margin-top:8px">Already have a routine from another browser? Use <b>Restore from backup</b> below.</p></div>'+
+    '<div class="card" id="activeCard"><h3>Active time</h3>'+
+    '<p class="small muted">How many years do you plan to keep using this planner? A countdown under the title can keep long-term goals in view.</p>'+
+    '<div class="form"><label for="ay">Years</label><input type="number" id="ay" min="0.5" max="100" step="0.5" inputmode="decimal" placeholder="e.g. 10" value="'+(settings.activeYears||"")+'"></div>'+
+    '<p class="small" style="margin:12px 0 0">Show on the main page</p>'+
+    '<div class="seg" role="group" aria-label="Show on the main page">'+[["weeks","Weeks left"],["months","Months left"],["none","Don\u2019t show"]].map(function(o){
+      return '<button type="button" data-as="'+o[0]+'" aria-pressed="'+((settings.activeShow||"none")===o[0])+'">'+o[1]+'</button>'}).join("")+'</div>'+
+    '<button class="btn" id="asv">Save active time</button> <span class="hand muted" id="asm" aria-live="polite"></span>'+
+    '<p class="aprev" id="aprev" aria-live="polite"></p></div>'+
     '<div class="card data" id="dataCard"><h3>Your data</h3>'+
     '<p class="small muted">Progress lives in this browser only. '+(settings.lastBackup?'Last backup: '+fmtShort(settings.lastBackup)+'.':'You haven\u2019t made a backup yet.')+'</p>'+
     '<div class="btnrow"><button class="btn" id="ex">Download backup</button><button class="btn ghost" id="im">Restore from backup</button></div>'+
     '<input type="file" id="imf" accept="application/json,.json" hidden>'+
     '<h3 style="margin-top:18px">Export</h3>'+
     '<div class="btnrow"><button class="btn ghost" id="csv">Spreadsheet (.csv)</button></div>'+
-    '<p class="small muted" style="margin-top:14px">Add upcoming tasks to your phone\u2019s calendar to get reminders.</p>'+
-    '<div class="fgrid"><label>Tasks<select id="icsWhat"><option value="key">Learning &amp; workouts</option><option value="all">Everything</option></select></label>'+
-    '<label>Days<select id="icsDays"><option>1</option><option selected>7</option><option>14</option></select></label></div>'+
-    '<div class="btnrow"><button class="btn ghost" id="ics">Add to calendar (.ics)</button></div>'+
     '<p class="hand muted" id="bm" style="margin-top:8px" aria-live="polite"></p></div>';
   el.innerHTML=h;
+  var sq=document.getElementById("sq"),sqT=null;
+  function runSearch(){
+    searchQ=sq.value;
+    var res=searchEntries(searchQ),c=document.getElementById("sqc"),ul=document.getElementById("sqr");
+    if(!searchQ.trim()){c.textContent="";ul.innerHTML="";return}
+    c.textContent=res.length?res.length+(res.length===1?" match":" matches")+(res.length>100?" — showing the newest 100":""):"No entries match \u201c"+searchQ.trim()+"\u201d. Try a shorter word.";
+    ul.innerHTML=res.slice(0,100).map(function(r){
+      return '<li><button data-ds="'+r.ds+'"><b>'+fmtDay(r.ds)+', '+r.ds.slice(0,4)+'<span class="sw2">'+(r.min!=null?fmtTime(r.min):"Daily notes")+'</span></b>'+
+        '<span>'+snippet(r.text,searchQ.trim())+'</span></button></li>';
+    }).join("");
+    ul.querySelectorAll("button").forEach(function(b){
+      b.onclick=function(){
+        dayDs=b.getAttribute("data-ds");gyi=null;setView("bouquet");
+        setTimeout(function(){var dp=document.getElementById("dayPanel");if(dp)dp.scrollIntoView({block:"start"})},30);
+      };
+    });
+  }
+  sq.oninput=function(){clearTimeout(sqT);sqT=setTimeout(runSearch,150)};
+  if(searchQ)runSearch();
   document.getElementById("sv").onclick=function(){
     var w=document.getElementById("sw").value,f=document.getElementById("sf").value,s=document.getElementById("ss").value;
-    if(w)settings.wake=w;if(f)settings.free=f;if(s){settings.start=s;layoutCache={};floraMemo={};designMemo={}}
+    if(w)settings.wake=w;if(f)settings.end=f;if(s){settings.start=s;layoutCache={};floraMemo={};designMemo={}}
     saveSettings();renderHeader();
     document.getElementById("svm").textContent="Saved";
   };
+  var ay=document.getElementById("ay"),aprev=document.getElementById("aprev"),aShow=settings.activeShow||"none";
+  function activePreview(){
+    var y=parseFloat(ay.value);
+    if(!(y>0)){aprev.textContent="";return}
+    y=Math.min(100,y);
+    var same=settings.activeYears===y&&settings.activeFrom,from=same?settings.activeFrom:today(),end=activeEnd(y,from),L=activeLeft(end),T=activeLeft(end,from);
+    // dates stay in the background; only the amount of time is shown
+    aprev.innerHTML=same&&L.days<T.days
+      ?"<b>"+nf(L.weeks)+"</b> weeks or <b>"+nf(L.months)+"</b> months left."
+      :"That\u2019s <b>"+nf(T.weeks)+"</b> weeks or <b>"+nf(T.months)+"</b> months.";
+  }
+  ay.oninput=function(){document.getElementById("asm").textContent="";activePreview()};
+  document.querySelectorAll("#activeCard .seg button").forEach(function(b){
+    b.onclick=function(){
+      aShow=b.getAttribute("data-as");
+      document.querySelectorAll("#activeCard .seg button").forEach(function(x){x.setAttribute("aria-pressed",String(x===b))});
+      document.getElementById("asm").textContent="";
+    };
+  });
+  document.getElementById("asv").onclick=function(){
+    var y=parseFloat(ay.value),m=document.getElementById("asm");
+    if(ay.value.trim()===""||!(y>0)){settings.activeYears=0;settings.activeFrom="";settings.activeShow=aShow;saveSettings();renderHeader();activePreview();m.textContent=ay.value.trim()===""?"Saved (no countdown)":"Enter a number of years";return}
+    y=Math.min(100,Math.round(y*2)/2);ay.value=y;
+    if(settings.activeYears!==y||!settings.activeFrom)settings.activeFrom=today();
+    settings.activeYears=y;settings.activeShow=aShow;
+    saveSettings();renderHeader();activePreview();m.textContent="Saved";
+  };
+  activePreview();
   var bm=document.getElementById("bm");
   document.getElementById("ex").onclick=function(){
     settings.lastBackup=today();
@@ -1842,10 +1544,6 @@ function renderPlan(){
     saveLocal();bm.textContent="Backup downloaded";
   };
   document.getElementById("csv").onclick=function(){download("year-in-bloom-"+today()+".csv",buildCSV(),"text/csv");bm.textContent="Spreadsheet downloaded"};
-  document.getElementById("ics").onclick=function(){
-    download("year-in-bloom-"+today()+".ics",buildICS(document.getElementById("icsWhat").value,+document.getElementById("icsDays").value),"text/calendar");
-    bm.textContent="Calendar file downloaded — open it to add the events";
-  };
   document.getElementById("im").onclick=function(){document.getElementById("imf").click()};
   document.getElementById("imf").onchange=function(e){
     var f=e.target.files[0];if(!f)return;
@@ -1853,63 +1551,54 @@ function renderPlan(){
     r.onload=function(){
       try{
         var o=JSON.parse(r.result);
-        if(!o||o.app!=="year-in-bloom"||!o.months)throw 0;
+        if(!o||(o.app!=="year-in-bloom"&&o.app!=="wild-year")||!o.months)throw 0;
         if(!confirm("Replace the progress in this browser with this backup?"))return;
         applyData(o);layoutCache={};floraMemo={};designMemo={};saveLocal();applyTheme();render();
         document.getElementById("bm").textContent="Backup restored";
-      }catch(err){bm.textContent="That file isn't a Year in bloom backup. Choose the .json file you downloaded."}
+      }catch(err){bm.textContent="That file isn't a backup from this planner. Choose the .json file you downloaded."}
     };
     r.readAsText(f);
   };
 }
 
+function searchEntries(q){
+  q=q.trim().toLowerCase();if(!q)return [];
+  var out=[];
+  Object.keys(months).forEach(function(ym){Object.keys(months[ym]).forEach(function(d){
+    var r=months[ym][d],ds=ym+"-"+pad(+d);
+    if(r.note&&r.note.toLowerCase().indexOf(q)>-1)out.push({ds:ds,min:null,text:r.note});
+    Object.keys(r.s||{}).forEach(function(k){
+      var v=r.s[k];if(v&&String(v).toLowerCase().indexOf(q)>-1)out.push({ds:ds,min:+k.slice(1),text:String(v)});
+    });
+  })});
+  out.sort(function(a,b){return a.ds<b.ds?1:a.ds>b.ds?-1:(a.min==null?1e9:a.min)-(b.min==null?1e9:b.min)});
+  return out;
+}
+function snippet(text,q){
+  var low=text.toLowerCase(),i=low.indexOf(q.toLowerCase()),a=Math.max(0,i-50),b=Math.min(text.length,i+q.length+80);
+  var pre=(a>0?"\u2026":"")+esc(text.slice(a,i)),hit=esc(text.slice(i,i+q.length)),post=esc(text.slice(i+q.length,b))+(b<text.length?"\u2026":"");
+  return pre+"<mark>"+hit+"</mark>"+post;
+}
 function download(name,text,type){
   var blob=new Blob([text],{type:type+";charset=utf-8"});
   var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;
   document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},2000);
 }
-function routineSummary(){
-  if(!settings.builtin){var c=0;for(var q in routine.add)c+=routine.add[q].length;return c?c+" weekly task"+(c===1?"":"s")+" saved (counted per weekday).":"No routine tasks yet.";}
-  var n=0,e=0,r=0,k;
-  for(k in routine.add)n+=routine.add[k].length;
-  for(k in routine.edit)e+=Object.keys(routine.edit[k]).length;
-  for(k in routine.hide)r+=routine.hide[k].length;
-  if(!n&&!e&&!r)return "No changes to your routine yet.";
-  return "Your changes: "+n+" added, "+e+" edited, "+r+" removed (counted per weekday).";
-}
 function csvCell(v){v=String(v==null?"":v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
 function buildCSV(){
-  var rows=[["Date","Weekday","Score %","Color","Points earned","Points possible","Water (glasses)","Mood","Notes","Completed tasks"]];
+  var rows=[["Date","Weekday","Score %","Color","Half-hours marked","Half-hours in day","Water (glasses)","Mood","Notes","What you tracked"]];
   var days=[];
   Object.keys(months).forEach(function(ym){Object.keys(months[ym]).forEach(function(d){days.push(ym+"-"+pad(+d))})});
   days.sort().forEach(function(ds){
-    var r=rec(ds),its=items(ds),max=0,got=0,names=[];
-    its.forEach(function(it){if(it.info)return;max+=it.pts;if(r.c.indexOf(it.id)>-1){got+=it.pts;names.push(it.name)}});
+    var r=rec(ds),sc=scoreFor(ds,r.c||[]),notes=r.s||{},lines=[];
+    Object.keys(notes).forEach(function(k){lines.push([+k.slice(1),fmtTime(+k.slice(1))+" "+notes[k]])});
+    lines.sort(function(a,b){return a[0]-b[0]});
     var mood=MOODS.filter(function(m){return m[0]===r.mood})[0];
-    rows.push([ds,DOW[parse(ds).getDay()],Math.round((r.p||0)*100),tierOf(r.p||0).name,got,max,r.w||0,mood?mood[1]:"",r.note||"",names.join("; ")]);
+    rows.push([ds,DOW[parse(ds).getDay()],Math.round((r.p||0)*100),tierOf(r.p||0).name,sc.got,sc.max,r.w||0,mood?mood[1]:"",r.note||"",
+      lines.map(function(l){return l[1]}).join("; ")]);
   });
   return "\ufeff"+rows.map(function(r){return r.map(csvCell).join(",")}).join("\r\n");
 }
-function icsEsc(s){return String(s).replace(/\\/g,"\\\\").replace(/[,;]/g,function(c){return "\\"+c}).replace(/\n/g,"\\n")}
-function icsTime(ds,min){var d=parse(ds);d.setHours(0,0,0,0);d.setMinutes(min);return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+"T"+pad(d.getHours())+pad(d.getMinutes())+"00"}
-function buildICS(what,n){
-  var L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Year in bloom//EN","CALSCALE:GREGORIAN"];
-  var stamp=new Date().toISOString().replace(/[-:]/g,"").slice(0,15)+"Z";
-  for(var i=0;i<n;i++){
-    var ds=addDays(today(),i);
-    items(ds).forEach(function(it){
-      if(it.info||it.pri)return;
-      if(what==="key"&&it.cat!=="study"&&it.cat!=="move")return;
-      L.push("BEGIN:VEVENT","UID:"+ds+"-"+it.id+"@year-in-bloom","DTSTAMP:"+stamp,
-        "DTSTART:"+icsTime(ds,it.t),"DTEND:"+icsTime(ds,it.t+it.dur),
-        "SUMMARY:"+icsEsc(it.name),(it.sub?"DESCRIPTION:"+icsEsc(it.sub):"DESCRIPTION:Year in bloom"),
-        "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc(it.name),"TRIGGER:-PT0M","END:VALARM","END:VEVENT");
-    });
-  }
-  L.push("END:VCALENDAR");
-  return L.join("\r\n")+"\r\n";
-}
-
 /* ---------- theme ---------- */
 function applyTheme(){
   var th=settings.theme||"auto",root=document.documentElement;
@@ -1925,22 +1614,102 @@ document.getElementById("themeBtn").onclick=function(){
   settings.theme=order[(i+1)%3];saveLocal();applyTheme();
 };
 if(window.matchMedia)matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyTheme);
-document.getElementById("dlgForm").addEventListener("submit",function(e){e.preventDefault();saveTask()});
-document.getElementById("fCancel").onclick=closeTask;
-document.getElementById("fDel").onclick=deleteTask;
-document.getElementById("dlg").addEventListener("close",function(){dlgState=null});
 
+/* ---------- active time: a countdown to the end of the years you plan to use this ---------- */
+function addMonthsDs(ds,n){ // same day n months later, clamped to month end
+  var d=parse(ds),y=d.getFullYear(),m=d.getMonth()+n,day=d.getDate();
+  y+=Math.floor(m/12);m=((m%12)+12)%12;
+  return y+"-"+pad(m+1)+"-"+pad(Math.min(day,daysIn(y,m)));
+}
+function activeEnd(yrs,from){return addMonthsDs(from,Math.round(yrs*12))}
+function activeLeft(end,from){
+  from=from||today();
+  var days=Math.round((parse(end)-parse(from))/864e5);
+  var a=parse(from),b=parse(end),months=(b.getFullYear()-a.getFullYear())*12+(b.getMonth()-a.getMonth());
+  if(b.getDate()<a.getDate())months--;
+  return {days:Math.max(0,days),weeks:Math.max(0,Math.floor(days/7)),months:Math.max(0,months)};
+}
+function nf(n){return n.toLocaleString()}
 function renderHeader(){
   var yi=currentYearIdx(),ms=yearMonthsFor(yi),a=ms[0],b=ms[11];
   document.getElementById("span").textContent="Year "+(yi+1)+" · "+MONTHS[a.m]+" "+a.y+" to "+MONTHS[b.m]+" "+b.y;
+  var el=document.getElementById("leftLine"),show=settings.activeShow;
+  if(!el)return;
+  if(!settings.activeYears||!settings.activeFrom||(show!=="weeks"&&show!=="months")){el.hidden=true;el.textContent="";return}
+  var end=activeEnd(settings.activeYears,settings.activeFrom),L=activeLeft(end);
+  el.hidden=false;
+  if(L.days<=0){el.textContent="Active time complete \u2014 set a new one in Settings";return}
+  var n=show==="weeks"?L.weeks:L.months,unit=show==="weeks"?(n===1?"week":"weeks"):(n===1?"month":"months");
+  if(n===0){n=L.days;unit=n===1?"day":"days"}
+  el.innerHTML="<b>"+nf(n)+"</b> "+unit+" of active time left";
 }
 
 function render(){
   renderHeader();
   if(view==="bouquet")renderBouquet();
+  else if(view==="compare")renderCompare();
   else if(view==="plan")renderPlan();
   else if(view==="tips")renderTips();
 }
+/* ---------- the same date, year by year ---------- */
+var cmpDs=null;
+function sameDayOtherYears(ds){
+  var d=parse(ds),m=d.getMonth(),day=d.getDate(),out=[],t=today();
+  var y0=parse(settings.start).getFullYear(),y1=parse(t).getFullYear();
+  for(var y=y1;y>=y0;y--){
+    var dd=new Date(y,m,day);
+    if(dd.getMonth()!==m)continue;                 // Feb 29 in a common year
+    var s2=iso(dd);
+    if(s2<settings.start||s2>t)continue;
+    out.push(s2);
+  }
+  return out;
+}
+function cmpMood(s2){
+  var r=rec(s2)||{},mo=MOODS.filter(function(x){return x[0]===r.mood})[0];
+  var note=(r.note||"").replace(/\s+/g," ").trim();
+  if(!note){var sn=r.s||{},ks=Object.keys(sn).sort(function(a,b){return +a.slice(1)-+b.slice(1)});if(ks.length)note=fmtTime(+ks[0].slice(1))+" "+sn[ks[0]]}
+  if(!mo&&!note)return "";
+  return '<span class="cmood">'+(mo?'<i style="background:'+mo[2]+'"></i>'+mo[1]:'')+
+    (note?'<em>'+esc(note.length>52?note.slice(0,52)+"\u2026":note)+'</em>':'')+'</span>';
+}
+function renderCompare(){
+  var el=document.getElementById("v-compare"),ds=cmpDs||today(),t=today();
+  var list=sameDayOtherYears(ds),d=parse(ds);
+  var h='<div class="spread"><h2>Same day, other years</h2>'+
+    '<p class="hand muted">'+MONTHS[d.getMonth()]+' '+d.getDate()+' in every year you have tracked. Tap a year to open that day.</p></div>'+
+    '<div class="dayhead"><button class="circ" id="cp" aria-label="Previous day">\u2039</button>'+
+    '<div class="dmid"><h2>'+MONTHS[d.getMonth()]+' '+d.getDate()+'</h2>'+
+    '<div class="dtags"><button class="chip sm" id="cback">\u2039 Back to the day</button></div></div>'+
+    '<button class="circ" id="cn" aria-label="Next day">\u203a</button></div>';
+  if(!list.length){
+    h+='<p class="muted" style="margin-top:18px">You have not tracked this date yet.</p>';
+  }else{
+    h+='<ul class="cmp">';
+    list.forEach(function(s2){
+      var yi=Math.max(0,yearIdxOf(s2.slice(0,7))),sc=scoreFor(s2,checks(s2)),tier=tierOf(sc.p);
+      var started=s2>=settings.start,any=sc.got||sc.water;
+      var ym2=ymOf(s2),y2=+ym2.slice(0,4),m2=+ym2.slice(5)-1;
+      h+='<li><button class="cmprow" data-ds="'+s2+'">'+
+        '<span class="cl"><b>'+fmtDay(s2)+', '+s2.slice(0,4)+'</b>'+cmpMood(s2)+
+        '<span class="sb">Year '+(yi+1)+' \u00b7 '+colorName(ymOf(s2))+(s2===t?' \u00b7 today':'')+'</span></span>'+
+        '<span class="cr">'+(any?sc.got+'/'+sc.max:started?"\u2014":"")+'<span class="sb">'+(any?tier.name:started?"nothing marked":"")+'</span></span>'+
+        '<svg class="cmpan" viewBox="-116 -116 232 232" aria-hidden="true">'+flower(y2,m2,104,designFor(ym2))+'</svg>'+
+        '</button></li>';
+    });
+    h+='</ul>';
+  }
+  el.innerHTML=h;
+  function go(n){cmpDs=addDays(ds,n);renderCompare();}
+  document.getElementById("cp").onclick=function(){go(-1)};
+  document.getElementById("cn").onclick=function(){go(1)};
+  onSwipe(el,function(){go(-1)},function(){go(1)});
+  document.getElementById("cback").onclick=function(){dayDs=ds<=t?ds:today();setView("bouquet")};
+  el.querySelectorAll("[data-ds]").forEach(function(b){
+    b.onclick=function(){dayDs=b.getAttribute("data-ds");setView("bouquet")};
+  });
+}
+
 function setView(v){
   view=v;
   document.querySelectorAll("nav button").forEach(function(b){b.setAttribute("aria-selected",String(b.getAttribute("data-v")===v))});
@@ -1950,15 +1719,14 @@ function setView(v){
 document.querySelectorAll("nav button").forEach(function(b){
   b.addEventListener("click",function(){
     var v=b.getAttribute("data-v");
-    if(v==="bouquet"){dayDs=today();editing=false}
+    if(v==="bouquet"){dayDs=today();gyi=null}
     setView(v);
   });
 });
 
 setInterval(function(){
-  if(view!=="bouquet"||dayDs!==today()||editing)return;
+  if(view!=="bouquet"||dayDs!==today())return;
   var a=document.activeElement;if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return;
-  if(document.getElementById("dlg").open)return;
   var y=window.scrollY;renderBouquet();window.scrollTo(0,y);
 },60000);
 loadLocal();
