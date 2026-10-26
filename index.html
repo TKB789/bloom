@@ -418,6 +418,16 @@ footer{margin-top:40px;text-align:center;font-family:var(--hand);color:var(--ink
 .cmood{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:var(--hand);font-size:.98rem;color:var(--ink2);margin-top:2px}
 .cmood i{width:11px;height:11px;border-radius:50%;border:1.2px solid var(--ink);display:inline-block;flex:0 0 auto}
 .cmood em{font-style:normal}
+/* save warning */
+.savewarn{display:none;margin:8px 0 0;padding:10px 12px;border:1.5px solid #B3261E;border-radius:12px;
+  background:#FDECEA;color:#7A1C16;font-size:.92rem;line-height:1.4}
+:root[data-theme="dark"] .savewarn,@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .savewarn{background:#3A1A17;color:#F6C8C3}}
+.mghead{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.mgnav{display:flex;align-items:center;gap:8px;color:var(--ink2)}
+.mgnav .circ.sm{width:28px;height:28px;font-size:1rem}
+.meterline{display:flex;align-items:center;gap:8px;margin:8px 0 0;font-size:.9rem;color:var(--ink2)}
+.meterline .bar{flex:1;height:8px;border-radius:9px;background:var(--wash);border:1px solid var(--line);overflow:hidden}
+.meterline .bar i{display:block;height:100%;background:var(--ink)}
 /* moods */
 .moods{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 .moods button{display:inline-flex;align-items:center;gap:6px}
@@ -523,6 +533,7 @@ footer{margin-top:40px;text-align:center;font-family:var(--hand);color:var(--ink
     <p class="left" id="leftLine" hidden></p>
   </header>
 
+  <div class="savewarn" id="saveWarn" role="alert"></div>
   <nav role="tablist">
     <button role="tab" aria-selected="true" data-v="bouquet">Garden</button>
     <button role="tab" aria-selected="false" data-v="plan">Settings</button>
@@ -669,19 +680,175 @@ var settings={start:today(),wake:"06:30",end:"22:00",gview:"grown",ahead:0,theme
 var months={};           // {"2026-09": {"15": {c:[slot keys], s:{slot:note}, p:0.8, w:3, t:ms}}}
 var view="bouquet", dayDs=today(), gyi=null, searchQ="";
 
-function loadLocal(){
+/* ---------- storage: IndexedDB, with localStorage as a fallback ---------- */
+/* Days live on disk, one record per month. Only the months on screen are kept in memory. */
+var IDB_NAME="year-in-bloom-db", IDB_VER=1, idb=null, useIDB=false;
+var monthUse={}, saveTimers={}, hasAnyData=false, saveBroken=false, MAX_CACHE=48;
+
+function idbOpen(cb){
+  var done=false;
+  function finish(ok){if(done)return;done=true;useIDB=ok;cb()}
   try{
-    var raw=localStorage.getItem(KEY);
-    if(raw)applyData(JSON.parse(raw));
-  }catch(e){}
+    if(!window.indexedDB)return finish(false);
+    var rq=indexedDB.open(IDB_NAME,IDB_VER);
+    rq.onupgradeneeded=function(e){
+      var db=e.target.result;
+      if(!db.objectStoreNames.contains("months"))db.createObjectStore("months",{keyPath:"ym"});
+      if(!db.objectStoreNames.contains("meta"))db.createObjectStore("meta",{keyPath:"k"});
+    };
+    rq.onsuccess=function(){idb=rq.result;finish(true)};
+    rq.onerror=function(){finish(false)};
+    rq.onblocked=function(){finish(false)};
+    setTimeout(function(){finish(false)},4000);
+  }catch(e){finish(false)}
+}
+function idbStore(name,mode){return idb.transaction(name,mode).objectStore(name)}
+function saveProblem(){
+  if(saveBroken)return;
+  saveBroken=true;
+  var w=document.getElementById("saveWarn");
+  if(w){w.style.display="block";w.textContent="This browser stopped saving — download a backup in Settings before you close the page."}
+  setSync("Not saving — see the warning above");
+}
+function saveWorked(){
+  hasAnyData=true;
+  if(!saveBroken)return;
+  saveBroken=false;
+  var w=document.getElementById("saveWarn");if(w)w.style.display="none";
+  setSync(useIDB?"Progress is saved in this browser":"Progress is saved in this browser");
+}
+
+/* ---- whole-blob fallback (older browsers, or IndexedDB blocked) ---- */
+function loadLocal(){
+  try{var raw=localStorage.getItem(KEY);if(raw){applyData(JSON.parse(raw));hasAnyData=true}}catch(e){}
+}
+function saveLocalAll(){
+  try{localStorage.setItem(KEY,JSON.stringify(dataObj()));saveWorked()}catch(e){saveProblem()}
 }
 function applyData(o){
   if(o.settings){var st=o.settings;if(!st.end)st.end="22:00";delete st.free;delete st.builtin;delete st.ahead2;settings=Object.assign(settings,st)}
   if(o.months)months=o.months;
 }
 function dataObj(){return {app:"year-in-bloom",v:3,settings:settings,months:months}}
-function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(dataObj()))}catch(e){}}
-function setSync(t){document.getElementById("sync").textContent=t}
+function setSync(t){var el=document.getElementById("sync");if(el)el.textContent=t}
+
+/* ---- months in memory: load what a view needs, drop what it doesn't ---- */
+function stamp(yms){var n=Date.now();for(var i=0;i<yms.length;i++)if(yms[i])monthUse[yms[i]]=n+i}
+function trim(){
+  if(!useIDB)return;
+  var keys=Object.keys(months);
+  if(keys.length<=MAX_CACHE)return;
+  keys.sort(function(a,b){return (monthUse[a]||0)-(monthUse[b]||0)});
+  for(var i=0;i<keys.length-MAX_CACHE;i++){
+    var k=keys[i];
+    if(saveTimers[k])continue;
+    delete months[k];delete monthUse[k];
+  }
+}
+function haveAll(yms){for(var i=0;i<yms.length;i++)if(yms[i]&&!months[yms[i]])return false;return true}
+function ensure(yms,cb){
+  stamp(yms);
+  if(!useIDB){yms.forEach(function(y){if(y&&!months[y])months[y]={}});if(cb)cb();return}
+  if(haveAll(yms)){trim();if(cb)cb();return}
+  var miss=yms.filter(function(y){return y&&!months[y]}),left=miss.length;
+  function one(){if(!--left){trim();if(cb)cb()}}
+  try{
+    var st=idbStore("months","readonly");
+    miss.forEach(function(ym){
+      var rq=st.get(ym);
+      rq.onsuccess=function(){months[ym]=(rq.result&&rq.result.days)||{};one()};
+      rq.onerror=function(){months[ym]={};one()};
+    });
+  }catch(e){miss.forEach(function(ym){months[ym]={}});trim();if(cb)cb()}
+}
+function eachMonth(step,done){
+  if(!useIDB){Object.keys(months).sort().forEach(function(ym){step(ym,months[ym]||{})});return done()}
+  try{
+    var rq=idbStore("months","readonly").openCursor();
+    rq.onsuccess=function(){var c=rq.result;if(!c)return done();step(c.value.ym,c.value.days||{});c.continue()};
+    rq.onerror=function(){done()};
+  }catch(e){done()}
+}
+function saveMonth(ym){
+  hasAnyData=true;
+  if(!useIDB)return saveLocalAll();
+  clearTimeout(saveTimers[ym]);
+  saveTimers[ym]=setTimeout(function(){
+    delete saveTimers[ym];
+    try{
+      var days=months[ym]||{},st=idbStore("months","readwrite");
+      var rq=Object.keys(days).length?st.put({ym:ym,days:days}):st.delete(ym);
+      rq.onerror=saveProblem;
+      st.transaction.oncomplete=saveWorked;
+      st.transaction.onerror=saveProblem;
+      st.transaction.onabort=saveProblem;
+    }catch(e){saveProblem()}
+  },120);
+}
+function queue(ym){saveMonth(ym)}
+function saveSettings(){
+  if(!useIDB)return saveLocalAll();
+  try{
+    var st=idbStore("meta","readwrite"),rq=st.put({k:"settings",v:settings});
+    rq.onerror=saveProblem;st.transaction.onerror=saveProblem;
+  }catch(e){saveProblem()}
+}
+function storageOK(){
+  if(useIDB)return true;
+  try{localStorage.setItem("__t","1");localStorage.removeItem("__t");return true}catch(e){return false}
+}
+
+/* ---- move an older browser-storage planner into the database, once ---- */
+function migrateLocal(cb){
+  var raw=null;
+  try{raw=localStorage.getItem(KEY)}catch(e){}
+  if(!raw)return cb();
+  var o=null;try{o=JSON.parse(raw)}catch(e){}
+  if(!o)return cb();
+  try{
+    var tx=idb.transaction(["months","meta"],"readwrite"),ms=tx.objectStore("months");
+    var mm=o.months||{};
+    Object.keys(mm).forEach(function(ym){if(mm[ym]&&Object.keys(mm[ym]).length)ms.put({ym:ym,days:mm[ym]})});
+    if(o.settings)tx.objectStore("meta").put({k:"settings",v:o.settings});
+    tx.oncomplete=function(){
+      try{localStorage.setItem(KEY+"-moved",today());localStorage.removeItem(KEY)}catch(e){}
+      cb();
+    };
+    tx.onerror=function(){applyData(o);cb()};
+    tx.onabort=function(){applyData(o);cb()};
+  }catch(e){applyData(o);cb()}
+}
+
+/* ---- backup and restore read and write every month ---- */
+function exportAll(cb){
+  if(!useIDB)return cb(JSON.stringify(dataObj(),null,1));
+  var parts=['{\n "app": "year-in-bloom",\n "v": 3,\n "settings": '+JSON.stringify(settings)+',\n "months": {'],first=true;
+  eachMonth(function(ym,days){
+    if(!days||!Object.keys(days).length)return;
+    parts.push((first?"":",")+'\n  '+JSON.stringify(ym)+': '+JSON.stringify(days));first=false;
+  },function(){
+    parts.push("\n }\n}\n");
+    cb(parts.join(""));
+  });
+}
+function importAll(o,cb){
+  applyData({settings:o.settings});
+  var mm=o.months||{};
+  if(!useIDB){months=mm;saveLocalAll();return cb()}
+  months={};monthUse={};
+  try{
+    var tx=idb.transaction(["months","meta"],"readwrite"),ms=tx.objectStore("months");
+    ms.clear();
+    Object.keys(mm).forEach(function(ym){if(mm[ym]&&Object.keys(mm[ym]).length)ms.put({ym:ym,days:mm[ym]})});
+    tx.objectStore("meta").put({k:"settings",v:settings});
+    tx.oncomplete=function(){hasAnyData=true;cb()};
+    tx.onerror=function(){saveProblem();cb()};
+  }catch(e){saveProblem();cb()}
+}
+function storageUsed(cb){
+  if(!navigator.storage||!navigator.storage.estimate)return cb(null);
+  navigator.storage.estimate().then(function(e){cb(e)},function(){cb(null)});
+}
 
 function yearStart(){var d=parse(settings.start);return {y:d.getFullYear(),m:d.getMonth()}}
 
@@ -716,11 +883,6 @@ function setChecks(ds,arr){
   months[ym][d]=Object.assign({},old,{c:arr,p:Math.round(sc.p*1000)/1000,t:Date.now()});
   queue(ym);
 }
-
-/* ---------- storage (this browser) ---------- */
-function queue(ym){saveLocal()}
-function saveSettings(){saveLocal()}
-function storageOK(){try{localStorage.setItem("__t","1");localStorage.removeItem("__t");return true}catch(e){return false}}
 
 /* ---------- colors ---------- */
 function hx(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
@@ -1127,8 +1289,7 @@ function legendHTML(ym,caption){
   return s;
 }
 function needsBackup(){
-  var any=Object.keys(months).some(function(k){return Object.keys(months[k]).length});
-  if(!any)return false;
+  if(!hasAnyData)return false;
   if(!settings.lastBackup)return true;
   return (parse(today())-parse(settings.lastBackup))/864e5>30;
 }
@@ -1191,7 +1352,16 @@ function onSwipe(el,prev,next){
     if(dx<0)next();else prev();
   },{passive:true});
 }
+function bouquetNeeds(){
+  var t=today(),cyi=currentYearIdx(),mode=settings.gview||"grown";
+  var maxYi=mode==="grown"?cyi:cyi+50,yi=gyi===null?cyi:Math.max(0,Math.min(maxYi,gyi));
+  var out=[ymOf(dayDs),ymOf(t)];
+  yearMonthsFor(yi).forEach(function(o){out.push(o.ym)});
+  if(mode!=="month")yearMonthsFor(yi+1).forEach(function(o){out.push(o.ym)});
+  return out.concat(moodMonths(dayDs));
+}
 function renderBouquet(){
+  if(!haveAll(bouquetNeeds()))return ensure(bouquetNeeds(),renderBouquet);
   var el=document.getElementById("v-bouquet"),t=today(),cyi=currentYearIdx(),mode=settings.gview||"grown";
   var maxYi=mode==="grown"?cyi:cyi+50;
   var yi=gyi===null?cyi:Math.max(0,Math.min(maxYi,gyi));gyi=yi===cyi?null:yi;
@@ -1238,19 +1408,9 @@ function renderBouquet(){
     }
   }
 
-  var logged=0,full=0;
-  Object.keys(months).forEach(function(ym){Object.keys(months[ym]).forEach(function(d){var r=months[ym][d];if(r.p>0)logged++;if(r.p>=.9)full++})});
-
-  var past="";
-  for(var y=cyi-1;y>=0;y--){
-    var ms=yearMonthsFor(y);
-    past+='<h3>Year '+(y+1)+' · '+MONTHS[ms[0].m].slice(0,3)+' '+ms[0].y+' – '+MONTHS[ms[11].m].slice(0,3)+' '+ms[11].y+'</h3>'+gardenSVG(y,12,false);
-  }
-
   el.innerHTML=s+
     (needsBackup()?'<button class="nudge" id="nudge">'+(settings.lastBackup?"It\u2019s been over a month since your last backup →":"Save a backup of your garden →")+'</button>':'')+
-    '<div id="dayPanel" class="daypanel"></div>'+
-    (past?'<div class="past"><h2>Earlier years</h2>'+past+'</div>':'');
+    '<div id="dayPanel" class="daypanel"></div>';
   renderDay();
   var ng=document.getElementById("nudge");
   if(ng)ng.onclick=function(){setView("plan");setTimeout(function(){var d=document.getElementById("dataCard");if(d)d.scrollIntoView({block:"start"})},30)};
@@ -1323,13 +1483,19 @@ function scorePetal(fill,op){
 
 var MOODS=[["normal","Normal","#8FB4E8"],["happy","Happy","#9CCB6B"],["special","Special","#C9B6E4"],
   ["tired","Sick / tired","#F2C94C"],["sad","Sad","#C4A57A"],["angry","Angry","#EE8FB0"]];
+var mgOff=0;
+function moodMonths(ds){
+  var end=addMonths(ymOf(ds),mgOff),first=firstYM(),out=[];
+  for(var i=11;i>=0;i--){var ym=addMonths(end,-i);if(ym>=first)out.push(ym)}
+  if(!out.length)out.push(first);
+  return out;
+}
 function moodGrid(ds){
-  var t=today(),endYM=t.slice(0,7),ym=firstYM(),rows="",counts={},any=false;
-  if(ymOf(ds)>endYM&&ymOf(ds)>=ym)endYM=ymOf(ds);
+  var t=today(),list=moodMonths(ds),rows="",any=false;
   var head='<span class="mml"></span>';
   for(var d=1;d<=31;d++)head+='<span class="mmn">'+(d===1||d%5===0?d:"")+'</span>';
   var lastYear=null;
-  while(ym<=endYM){
+  list.forEach(function(ym){
     var y=+ym.slice(0,4),m=+ym.slice(5)-1,n=daysIn(y,m);
     if(lastYear!==null&&y!==lastYear)rows+='<span class="mmy">'+y+'</span>';
     lastYear=y;
@@ -1337,13 +1503,17 @@ function moodGrid(ds){
     for(var dd=1;dd<=31;dd++){
       if(dd>n){rows+='<span class="mmx"></span>';continue}
       var dstr=ym+"-"+pad(dd),r=rec(dstr)||{},mo=MOODS.filter(function(x){return x[0]===r.mood})[0];
-      if(mo){counts[mo[0]]=(counts[mo[0]]||0)+1;any=true}
+      if(mo)any=true;
       rows+='<button class="mmc'+(dstr>t?" fut":"")+(dstr===t?" tdy":"")+(dstr===ds?" sel":"")+'" data-mg="'+dstr+'"'+
         (mo?' style="background:'+mo[2]+'"':'')+' aria-label="'+fmtDay(dstr)+(mo?": "+mo[1]:"")+'"></button>';
     }
-    ym=addMonths(ym,1);
-  }
-  return '<section class="moodgrid" aria-labelledby="mgH"><h3 id="mgH">Your moods overall</h3>'+
+  });
+  var a=list[0],z=list[list.length-1];
+  var span=MONTHS[+a.slice(5)-1].slice(0,3)+' '+a.slice(0,4)+' \u2013 '+MONTHS[+z.slice(5)-1].slice(0,3)+' '+z.slice(0,4);
+  return '<section class="moodgrid" aria-labelledby="mgH"><div class="mghead"><h3 id="mgH">Your moods</h3>'+
+    '<div class="mgnav"><button class="circ sm" id="mgp" aria-label="Earlier year"'+(a<=firstYM()?" disabled":"")+'>\u2039</button>'+
+    '<span class="hand">'+span+'</span>'+
+    '<button class="circ sm" id="mgn" aria-label="Later year"'+(mgOff>=0?" disabled":"")+'>\u203a</button></div></div>'+
     '<p class="small muted" style="margin:0 0 10px">'+(any?"One row per month, one square per day. Tap a square to open that day.":"Pick a mood above and each month fills in as a row here.")+'</p>'+
     '<div class="mm">'+head+rows+'</div></section>';
 }
@@ -1353,7 +1523,7 @@ function setMeta(ds,obj){
   var r=months[ym][d];
   if(!r){r={c:[],p:0};}
   months[ym][d]=Object.assign({},r,obj,{t:Date.now()});
-  saveLocal();
+  saveMonth(ym);
 }
 
 /* the page has an 18px dot grid; shift the list so its row lines sit on it */
@@ -1424,8 +1594,11 @@ function renderDay(){
   el.querySelectorAll("[data-mood]").forEach(function(b){
     b.onclick=function(){var m=b.getAttribute("data-mood"),r=rec(dayDs);setMeta(dayDs,{mood:r&&r.mood===m?"":m});redraw('[data-mood="'+m+'"]')};
   });
+  var mgp=document.getElementById("mgp"),mgn=document.getElementById("mgn");
+  if(mgp)mgp.onclick=function(){mgOff-=12;redraw("#mgp")};
+  if(mgn)mgn.onclick=function(){mgOff=Math.min(0,mgOff+12);redraw("#mgn")};
   el.querySelectorAll("[data-mg]").forEach(function(b){
-    b.onclick=function(){dayDs=b.getAttribute("data-mg");redraw(null);
+    b.onclick=function(){dayDs=b.getAttribute("data-mg");mgOff=0;redraw(null);
       var dp=document.getElementById("dayPanel");if(dp)dp.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"})};
   });
   var nt=document.getElementById("note"),ntT=null;
@@ -1484,13 +1657,35 @@ function renderPlan(){
     '<input type="file" id="imf" accept="application/json,.json" hidden>'+
     '<h3 style="margin-top:18px">Export</h3>'+
     '<div class="btnrow"><button class="btn ghost" id="csv">Spreadsheet (.csv)</button></div>'+
-    '<p class="hand muted" id="bm" style="margin-top:8px" aria-live="polite"></p></div>';
+    '<p class="hand muted" id="bm" style="margin-top:8px" aria-live="polite"></p>'+
+    '<div id="useLine"></div></div>';
   el.innerHTML=h;
+  function mbStr(n){return n>=1048576?(n/1048576).toFixed(1)+" MB":Math.max(1,Math.round(n/1024))+" KB"}
+  function showUse(used,quota,note){
+    var ul=document.getElementById("useLine");if(!ul)return;
+    var pct=quota?Math.min(100,Math.round(used/quota*1000)/10):0;
+    ul.innerHTML='<div class="meterline"><span>'+mbStr(used)+' used</span><span class="bar"><i style="width:'+Math.max(.5,pct)+'%"></i></span><span>of about '+mbStr(quota)+'</span></div>'+
+      '<p class="small muted" style="margin:6px 0 0">'+note+'</p>';
+  }
+  if(useIDB){
+    storageUsed(function(e){
+      if(e&&e.quota)showUse(e.usage||0,e.quota,"Days are kept in a database, so there is room for decades of entries.");
+      else{var ul=document.getElementById("useLine");if(ul)ul.innerHTML='<p class="small muted" style="margin:8px 0 0">Days are kept in a database in this browser, with room for decades of entries.</p>'}
+    });
+  }else{
+    var used=0;
+    try{for(var k in localStorage)if(localStorage.hasOwnProperty(k))used+=(k.length+String(localStorage[k]).length)*2}catch(e){}
+    showUse(used,5242880,"This browser can\u2019t use database storage, so the planner is in basic storage — about 5 MB, a few years of entries. Keep backups.");
+  }
   var sq=document.getElementById("sq"),sqT=null;
   function runSearch(){
     searchQ=sq.value;
-    var res=searchEntries(searchQ),c=document.getElementById("sqc"),ul=document.getElementById("sqr");
+    var c=document.getElementById("sqc"),ul=document.getElementById("sqr");
     if(!searchQ.trim()){c.textContent="";ul.innerHTML="";return}
+    var asked=searchQ;
+    c.textContent="Searching\u2026";
+    searchEntries(searchQ,function(res){
+    if(asked!==searchQ||!document.getElementById("sqc"))return;
     c.textContent=res.length?res.length+(res.length===1?" match":" matches")+(res.length>100?" — showing the newest 100":""):"No entries match \u201c"+searchQ.trim()+"\u201d. Try a shorter word.";
     ul.innerHTML=res.slice(0,100).map(function(r){
       return '<li><button data-ds="'+r.ds+'"><b>'+fmtDay(r.ds)+', '+r.ds.slice(0,4)+'<span class="sw2">'+(r.min!=null?fmtTime(r.min):"Daily notes")+'</span></b>'+
@@ -1498,9 +1693,10 @@ function renderPlan(){
     }).join("");
     ul.querySelectorAll("button").forEach(function(b){
       b.onclick=function(){
-        dayDs=b.getAttribute("data-ds");gyi=null;setView("bouquet");
+        dayDs=b.getAttribute("data-ds");gyi=null;mgOff=0;setView("bouquet");
         setTimeout(function(){var dp=document.getElementById("dayPanel");if(dp)dp.scrollIntoView({block:"start"})},30);
       };
+    });
     });
   }
   sq.oninput=function(){clearTimeout(sqT);sqT=setTimeout(runSearch,150)};
@@ -1541,11 +1737,17 @@ function renderPlan(){
   activePreview();
   var bm=document.getElementById("bm");
   document.getElementById("ex").onclick=function(){
-    settings.lastBackup=today();
-    download("year-in-bloom-backup-"+today()+".json",JSON.stringify(dataObj(),null,1),"application/json");
-    saveLocal();bm.textContent="Backup downloaded";
+    bm.textContent="Preparing backup\u2026";
+    exportAll(function(text){
+      settings.lastBackup=today();saveSettings();
+      download("year-in-bloom-backup-"+today()+".json",text,"application/json");
+      bm.textContent="Backup downloaded";
+    });
   };
-  document.getElementById("csv").onclick=function(){download("year-in-bloom-"+today()+".csv",buildCSV(),"text/csv");bm.textContent="Spreadsheet downloaded"};
+  document.getElementById("csv").onclick=function(){
+    bm.textContent="Preparing spreadsheet\u2026";
+    buildCSV(function(text){download("year-in-bloom-"+today()+".csv",text,"text/csv");bm.textContent="Spreadsheet downloaded"});
+  };
   document.getElementById("im").onclick=function(){document.getElementById("imf").click()};
   document.getElementById("imf").onchange=function(e){
     var f=e.target.files[0];if(!f)return;
@@ -1555,26 +1757,32 @@ function renderPlan(){
         var o=JSON.parse(r.result);
         if(!o||(o.app!=="year-in-bloom"&&o.app!=="wild-year")||!o.months)throw 0;
         if(!confirm("Replace the progress in this browser with this backup?"))return;
-        applyData(o);layoutCache={};floraMemo={};designMemo={};saveLocal();applyTheme();render();
-        document.getElementById("bm").textContent="Backup restored";
+        bm.textContent="Restoring\u2026";
+        importAll(o,function(){
+          layoutCache={};floraMemo={};designMemo={};mgOff=0;applyTheme();
+          ensure(bouquetNeeds(),function(){render();var m=document.getElementById("bm");if(m)m.textContent="Backup restored"});
+        });
       }catch(err){bm.textContent="That file isn't a backup from this planner. Choose the .json file you downloaded."}
     };
     r.readAsText(f);
   };
 }
 
-function searchEntries(q){
-  q=q.trim().toLowerCase();if(!q)return [];
+function searchEntries(q,cb){
+  q=q.trim().toLowerCase();if(!q)return cb([]);
   var out=[];
-  Object.keys(months).forEach(function(ym){Object.keys(months[ym]).forEach(function(d){
-    var r=months[ym][d],ds=ym+"-"+pad(+d);
-    if(r.note&&r.note.toLowerCase().indexOf(q)>-1)out.push({ds:ds,min:null,text:r.note});
-    Object.keys(r.s||{}).forEach(function(k){
-      var v=r.s[k];if(v&&String(v).toLowerCase().indexOf(q)>-1)out.push({ds:ds,min:+k.slice(1),text:String(v)});
+  eachMonth(function(ym,days){
+    Object.keys(days).forEach(function(d){
+      var r=days[d],ds=ym+"-"+pad(+d);
+      if(r.note&&r.note.toLowerCase().indexOf(q)>-1)out.push({ds:ds,min:null,text:r.note});
+      Object.keys(r.s||{}).forEach(function(k){
+        var v=r.s[k];if(v&&String(v).toLowerCase().indexOf(q)>-1)out.push({ds:ds,min:+k.slice(1),text:String(v)});
+      });
     });
-  })});
-  out.sort(function(a,b){return a.ds<b.ds?1:a.ds>b.ds?-1:(a.min==null?1e9:a.min)-(b.min==null?1e9:b.min)});
-  return out;
+  },function(){
+    out.sort(function(a,b){return a.ds<b.ds?1:a.ds>b.ds?-1:(a.min==null?1e9:a.min)-(b.min==null?1e9:b.min)});
+    cb(out);
+  });
 }
 function snippet(text,q){
   var low=text.toLowerCase(),i=low.indexOf(q.toLowerCase()),a=Math.max(0,i-50),b=Math.min(text.length,i+q.length+80);
@@ -1587,19 +1795,20 @@ function download(name,text,type){
   document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},2000);
 }
 function csvCell(v){v=String(v==null?"":v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
-function buildCSV(){
+function buildCSV(cb){
   var rows=[["Date","Weekday","Score %","Color","Half-hours marked","Half-hours in day","Water (glasses)","Mood","Notes","What you tracked"]];
-  var days=[];
-  Object.keys(months).forEach(function(ym){Object.keys(months[ym]).forEach(function(d){days.push(ym+"-"+pad(+d))})});
-  days.sort().forEach(function(ds){
-    var r=rec(ds),sc=scoreFor(ds,r.c||[]),notes=r.s||{},lines=[];
+  var all={};
+  eachMonth(function(ym,days){Object.keys(days).forEach(function(d){all[ym+"-"+pad(+d)]=days[d]})},function(){
+  Object.keys(all).sort().forEach(function(ds){
+    var r=all[ds],sc=scoreFor(ds,r.c||[]),notes=r.s||{},lines=[];
     Object.keys(notes).forEach(function(k){lines.push([+k.slice(1),fmtTime(+k.slice(1))+" "+notes[k]])});
     lines.sort(function(a,b){return a[0]-b[0]});
     var mood=MOODS.filter(function(m){return m[0]===r.mood})[0];
     rows.push([ds,DOW[parse(ds).getDay()],Math.round((r.p||0)*100),tierOf(r.p||0).name,sc.got,sc.max,r.w||0,mood?mood[1]:"",r.note||"",
       lines.map(function(l){return l[1]}).join("; ")]);
   });
-  return "\ufeff"+rows.map(function(r){return r.map(csvCell).join(",")}).join("\r\n");
+  cb("\ufeff"+rows.map(function(r){return r.map(csvCell).join(",")}).join("\r\n"));
+  });
 }
 /* ---------- theme ---------- */
 function applyTheme(){
@@ -1613,7 +1822,7 @@ function applyTheme(){
 }
 document.getElementById("themeBtn").onclick=function(){
   var order=["auto","light","dark"],i=order.indexOf(settings.theme||"auto");
-  settings.theme=order[(i+1)%3];saveLocal();applyTheme();
+  settings.theme=order[(i+1)%3];saveSettings();applyTheme();
 };
 if(window.matchMedia)matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyTheme);
 
@@ -1676,7 +1885,9 @@ function cmpMood(s2){
     (note?'<em>'+esc(note.length>52?note.slice(0,52)+"\u2026":note)+'</em>':'')+'</span>';
 }
 function renderCompare(){
-  var el=document.getElementById("v-compare"),ds=cmpDs||today(),t=today();
+  var ds0=cmpDs||today(),needs=sameDayOtherYears(ds0).map(ymOf);
+  if(!haveAll(needs))return ensure(needs,renderCompare);
+  var el=document.getElementById("v-compare"),ds=ds0,t=today();
   var list=sameDayOtherYears(ds),d=parse(ds);
   var h='<div class="spread"><h2>Same day, other years</h2>'+
     '<p class="hand muted">'+MONTHS[d.getMonth()]+' '+d.getDate()+' in every year you have tracked. Tap a year to open that day.</p></div>'+
@@ -1731,12 +1942,43 @@ setInterval(function(){
   var a=document.activeElement;if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return;
   var y=window.scrollY;renderBouquet();window.scrollTo(0,y);
 },60000);
-loadLocal();
-if(!settings.start)settings.start=today();
-applyTheme();
-saveLocal();
-render();
-if(!storageOK())setSync("This browser is blocking storage — progress won't be kept after you close the page");
+function readMeta(cb){
+  var done=false;
+  function go(){if(done)return;done=true;cb()}
+  try{
+    var tx=idb.transaction("meta","readonly"),rq=tx.objectStore("meta").get("settings");
+    rq.onsuccess=function(){if(rq.result&&rq.result.v)applyData({settings:rq.result.v})};
+    tx.oncomplete=go;tx.onerror=go;tx.onabort=go;
+  }catch(e){go()}
+}
+function boot(){
+  idbOpen(function(){
+    if(!useIDB){loadLocal();start();return}
+    var done=false;
+    function after(n){
+      if(done)return;done=true;
+      hasAnyData=n>0;
+      // a planner already in the database wins; an old browser-storage copy is only imported into an empty one
+      if(n>0)readMeta(start);
+      else migrateLocal(function(){readMeta(start)});
+    }
+    try{
+      var tx=idb.transaction("months","readonly"),cq=tx.objectStore("months").count();
+      cq.onsuccess=function(){after(cq.result)};
+      tx.onerror=function(){after(0)};tx.onabort=function(){after(0)};
+    }catch(e){after(0)}
+  });
+}
+function start(){
+  if(!settings.start)settings.start=today();
+  applyTheme();
+  ensure(bouquetNeeds(),function(){
+    render();
+    if(!storageOK())setSync("This browser is blocking storage — progress won't be kept after you close the page");
+    else if(useIDB&&navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(function(){});
+  });
+}
+boot();
 })();
 </script>
 </body>
